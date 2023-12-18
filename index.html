@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet of Pleb</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="dist/bundle.js" defer>
+        
+
+    </script>
+</head>
+<body>
+    <div class="container" id="container">
+        <header>
+            <h1>Pleb Wallet</h1>
+        </header>
+        
+            <div class="row">
+                <div class="balance-card">
+                    <h2>Balance</h2>
+                    <p id="walletBal">897900 sats</p>
+                </div>
+               
+            </div>
+            
+            
+            <div class="row">
+                <div class="transactionDiv" id="transactionDiv">
+                    <h3 class="txHeader">Transactions</h3>        
+                </div>    
+                <div class="buttonsDiv">
+                    <button id="sendBtn" class="rndBtn">Paste Request</button>
+                    <button id="recieveBtn" class="rndBtn">New Ivoice</button>
+                </div>
+            </div>
+            <div class="row">
+                
+                <div class="invoice" id="createInvoice">
+                    <p>Enter Amount in sats</p>
+                    <input type="text" class="invoiceInput" id="amountInput">
+                    <button class="invoice_Btn" id="createInvBtn">Create Invoice</button>
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="toolBox" id="toolBoxDiv">
+                    <button class="rndBtn" id="decodeDivBtn">Decode</button>
+                    
+                    <div class="invoice" id="decodeInvoiceDiv">
+                        <h3 id="decodeHeader">Decoded invoice</h3>
+                        
+                       
+                    </div>
+
+                </div>
+            </div>
+        <footer>
+            <p>Made by plebs, for plebs.</p>
+            <p id="btcPrice">$19,364</p>
+        </footer>
+     
+    </div>
+</body>
+</html>

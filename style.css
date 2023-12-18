@@ -1,0 +1,236 @@
+:root {
+    --lightBackgroundColor:  rgba(0, 0, 0, 0.653);
+    --darkBackgroundColor:  #192734;
+    --lightFont: white;
+    --darkFont:  black;
+    --lightAccentColor: #533502;
+    --darkAccentColor: white;
+    --font: Helvetica, sans-serif;
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+.container {
+    background-color: var(--darkBackgroundColor);
+    font-family: var(--font);
+    color: var(--lightFont);
+    height: 100vh;
+   }
+   
+   header {
+    border-bottom: 2px solid var(--darkAccentColor);
+    background-color: var(--lightBackgroundColor);
+   
+ 
+   }
+   
+   h1 {
+    text-align: center;
+    padding: 50px;
+    
+}
+   .closeBtn {
+    font-size: 3rem;
+    background-color: transparent;    
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    cursor: pointer;
+    position: relative;
+    left: 400px;
+    color: white;
+   }
+   .closeBtn:hover {
+    color: black;
+    outline: none;
+    border: none;
+   }
+   img {
+    width: 100%;
+    height: 100%;
+   }
+   
+   footer {
+    border-top: 2px solid var(--lightAccentColor);
+    padding: 1%;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+   }
+   
+   footer p {
+    color: var(--lightFont);
+   }
+   
+   .buttonsDiv {
+    width: 100%;
+    border-bottom-left-radius: 100%;
+    border-bottom-right-radius: 100%;
+    margin: 0 auto;
+   
+    display: flex;
+    justify-content: space-around;
+    background-color: var(--lightBackgroundColor)
+   }
+      
+   .buttonsDiv button:hover {
+    cursor: pointer;
+    
+   }
+   .rndBtn {
+    border-radius: 50%;
+    background-color: var(--darkBackgroundColor);
+    color: var(--lightFont);
+    border: none;   
+    padding: 5px;
+    font-size: 1.2rem;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    top: 40px;
+    outline: solid 1px var(--lightAccentColor);
+
+   }
+  
+   .balance-card {
+    color: var(--lightFont);
+    background-color: var(--lightBackgroundColor);   
+    padding-left: 80%;
+    padding-top: 20px;
+    width: 80%; 
+   }
+   
+   .balance-card p {
+    
+    font-size: 3rem;
+    font-weight: bold;
+   }
+   
+   .row {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    
+   }
+   .transaction {
+    padding-bottom: 10px;
+    text-align: left;
+   }
+        
+   .transaction-amount {
+    border-top: 2px solid var(--darkAccentColor);
+    width: 500px;
+    padding: 15px;
+    font-size: 2rem;
+    text-align: center;
+   }
+   .txHeader {
+    position: relative;
+    
+    
+   }
+   .hide {
+    display: none;
+   }
+   .block {
+    display: block;
+   }
+   .transactionDiv {
+    padding: 50px 20px 0 20px;
+    
+    display: grid;
+    justify-content: center;
+    align-items: center;  
+    font-size: 1.25em;
+    width: 100vw;
+    max-height: 400px;
+    overflow: scroll;
+    overflow-x: hidden;    
+    background-color: var(--lightBackgroundColor);
+  
+   }
+   .invoice {
+    padding: 20px;
+    padding-left: 40%;    
+    font-size: 1.25em;
+    width: 25%;
+    max-height: 400px;
+    overflow: hidden;  
+
+   }
+    
+   input {
+    height: 75px;
+    width: 300px;
+    border-radius: 7px;
+    border: none;
+    font-size: 1.5rem;
+    padding: 10px;
+    
+   }
+   input:focus {
+    outline: none;
+    border: none;
+   }
+   .invoice_Btn {
+    border-radius: 7px;
+    background-color: var(--darkBackgroundColor);
+    color: var(--lightFont);
+    border: solid 1px var(--lightAccentColor);
+    padding: 10px;
+    width: 300px;
+    height: 100px;
+    font-size: 1.5rem;
+    margin: 10px;
+   }
+   .invoice_Btn:hover {
+    background-color: var(--lightBackgroundColor);
+    color: var(--lightFont);
+   }
+   .green {
+    color: green;
+   }
+   .red {
+    color: red;
+   }
+ 
+  
+   .data-list {
+    overflow:visible;
+    height: 800px;
+    display: block;
+   }
+   @media (max-width: 876px) {
+    .row-item {
+      width: 100%;
+      height: 200px;
+    }
+   
+    .balance-card {
+      width: 100%;
+      text-align: center;
+      margin-right: 2%;
+      margin-left: 2%;
+    }
+   }
+   
+   @media (max-width: 615px) {
+    .row {
+      flex-direction: column;
+    }
+   
+    .row-item {
+      margin-top: 1%;
+    }
+   
+    .balance-card {
+      width: 80%;
+      margin: 0 auto;
+      margin-top: 1%;
+    }
+   }
+   
