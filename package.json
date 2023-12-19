@@ -19,7 +19,6 @@
   "homepage": "https://github.com/dielawn/pleb_wallet#readme",
   "keywords": [],
   "devDependencies": {
-    "@babel/core": "^7.23.6",
     "@babel/preset-env": "^7.23.6",
     "babel-loader": "^9.1.3",
     "webpack": "^5.89.0",

@@ -1,4 +1,8 @@
-import { getLnbitsTransactions, getInvoice, submitInvoiceToPay, decodeInvoice, getBitcoinPrice, getLnbitsBalance } from "./lnbits"
+import {getInvoice, submitInvoiceToPay, decodeInvoice,  } from '.lnbits.js'
+
+async function abreviateHash(hash, start, end) {
+    return `${hash.substring(0, start)}...${hash.substring(hash.length - end)}`
+}
 
 const displayDecodedInvoice = (invoiceResponse) => {
     
@@ -42,11 +46,10 @@ const displayDecodedInvoice = (invoiceResponse) => {
    containerDiv.appendChild(decodedInvoiceDiv)
 }
 
-const displayTransactions = async () => {
+const displayTransactions = (transactions) => {
     const transactionDiv = document.getElementById('transactionDiv')
-    
-    const transactions = await getLnbitsTransactions()
     transactionDiv.innerHTML = ''
+
     //display message if no tx history
     if (transactions.length === 0) {
         const newTransaction = document.createElement('div')
@@ -108,9 +111,14 @@ const displayTransactions = async () => {
     })
 }
 
+
+
+const decodeInvoiceDiv = document.getElementById('decodeInvoiceDiv')
+
+const createInvoiceDiv = document.getElementById('createInvoice')
+createInvoiceDiv.classList.add('hide')
+
 async function handleInvoice(amount) {    
-    const amountInput = document.getElementById('amountInput')
-    const createInvoiceDiv = document.getElementById('createInvoice')
     try {        
         const response = await getInvoice(amount)      
         const paymentRequest = response.payment_request  
@@ -124,14 +132,14 @@ async function handleInvoice(amount) {
         setTimeout(() => {
             newTransaction.remove()
             createInvoiceDiv.classList.toggle('hide')
-        }, 1000)
+        }, 2000)
        
     } catch (error) {
         console.error(`Error getting invoice`, error)
     }
 }
+
 async function handlePayment(invoice) {
-    const decodeInvoiceDiv = document.getElementById('decodeInvoiceDiv')
     try {
         const response = await submitInvoiceToPay(invoice)
         console.log(`response: ${response}`)
@@ -145,27 +153,15 @@ async function handlePayment(invoice) {
     }
 }
 
-
-
-async function copyToClipboard(invoiceTxt) {
-    try {  
-       await navigator.clipboard.writeText(invoiceTxt)
-        return 'Copied to clipboard'
-    } catch {
-        return 'Error copying to clipboard'
-    }
-    
-}
-
 async function handleBtns() {
     const decodeInvoiceDiv = document.getElementById('decodeInvoiceDiv')
-    decodeInvoiceDiv.classList.add('hide')
+decodeInvoiceDiv.classList.add('hide')
 
-    const createInvoiceDiv = document.getElementById('createInvoice')
-    createInvoiceDiv.classList.add('hide')
+const createInvoiceDiv = document.getElementById('createInvoice')
+createInvoiceDiv.classList.add('hide')
 
-    const decodeDivBtn = document.getElementById('decodeDivBtn')
-    decodeDivBtn.addEventListener('click', async () => {
+const decodeDivBtn = document.getElementById('decodeDivBtn')
+decodeDivBtn.addEventListener('click', async () => {
     const decodeInvoiceDiv = document.getElementById('decodeInvoiceDiv')
     decodeInvoiceDiv.classList.toggle('hide')    
 
@@ -191,19 +187,25 @@ const recieveBtn = document.getElementById('recieveBtn')
   
     })
     const newInvBtn = document.getElementById('createInvBtn')
-    newInvBtn.addEventListener('click', async () => {
-        const amount = await returnAmount()
-        handleInvoice(amount)
-    })
-}
-async function returnAmount() {
-    const amountInput = document.getElementById('amountInput')
-        if (amountInput.value <= 0 || amountInput.value === '') {
+    newInvBtn.addEventListener('click', () => {
+        const amountInput = document.getElementById('amountInput')
+        if (amountInput.value <= 0) {
             return
         }
-    return amountInput.value
+        handleInvoice(amountInput.value)
+    })
 }
 
+
+async function copyToClipboard(invoiceTxt) {
+    try {  
+       await navigator.clipboard.writeText(invoiceTxt)
+        return 'Copied to clipboard'
+    } catch {
+        return 'Error copying to clipboard'
+    }
+    
+}
 async function pasteFromClipBoard() {
     try {
       const clipBrdTxt = await navigator.clipboard.readText()
@@ -213,30 +215,8 @@ async function pasteFromClipBoard() {
     }
 }
 
-async function displayBtcPrice() {
-    const btcPrice = document.getElementById('btcPrice')
-    const price = await getBitcoinPrice();
-    const string_price = Number( price ).toLocaleString();
-    btcPrice.textContent= `$${string_price}`
-}
-
-async function displayWalletBal() {
-    const walletBal = document.getElementById('walletBal')
-    const balance = await getLnbitsBalance()
-    const string_bal = Number( balance ).toLocaleString()
-    walletBal.textContent = `${string_bal} sats`
-}
-
-export {
-    displayDecodedInvoice,
-    displayTransactions,
-    handleInvoice,
-    handlePayment,
+export default {
     handleBtns,
-    displayBtcPrice,
-    displayWalletBal,
-}
-
-async function abreviateHash(hash, start, end) {
-    return `${hash.substring(0, start)}...${hash.substring(hash.length - end)}`
+    displayTransactions,
+    
 }
