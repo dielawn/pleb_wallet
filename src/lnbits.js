@@ -109,20 +109,13 @@ async function decodeInvoice(invoice) {
 }
 
 async function submitInvoiceToPay(invoice) {   
-    
-    const amount = await getAmountFrom(invoice)
-    let isPlural = amount > 1
-
-    if (!confirm(`${amount} sat${isPlural ? 's' : ''}
-    Are you sure you want to pay this invoice? 
-    ${invoice}`)) {
-        return
-    }
+    try {
+        await customAlert(invoice)
     let json = {
         out: true,
         bolt11: invoice,
     }
-    try {
+   
         const response = await postJson(LN_BITS_API_URL,  LN_BITS_API_ADMIN_KEY, "application/json", JSON.stringify(json))    
         console.log(response)
         const paymentHash = response.payment_hash
@@ -132,54 +125,31 @@ async function submitInvoiceToPay(invoice) {
         console.error(`Error submitting invoice: ${error}`)
     }    
 }
-export {
-    getBitcoinPrice, 
-    getLnbitsBalance,
-    getLnbitsTransactions,
-    postJson,
-    getInvoice,
-    getAmountFrom,
-    decodeInvoice,
-    submitInvoiceToPay,
-}
 
-// async function getAmountFrom(invoice) {
-//     const data = await decodeInvoice(invoice)
-//     const amount = (data.amount_msat) / 1000
-//     return amount
-// }
-
-// async function submitInvoiceToPay(invoice) {   
+async function customAlert(invoice) {
+    const amount = await getAmountFrom(invoice)
+    const abrevInv = await abreviateHash(invoice, 11, 11)
+    return new Promise((resolve, reject) => {
+        
+        let isPlural = amount > 1
+        Swal.fire({
+            title: `Pay Invoice`,
+            html: `${amount} sat${isPlural ? 's' : ''}<br>Are you sure you want to pay this invoice?<br> ${abrevInv} `,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, pay it!',
+            cancelButtonText: 'Cancel',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                resolve()
+            } else {
+                reject(false)
+            }
+            
+        })
+    })
     
-//     const amount = await getAmountFrom(invoice)
-//     let isPlural = amount > 1
-
-//     if (!confirm(`${amount} sat${isPlural ? 's' : ''}
-//     Are you sure you want to pay this invoice? 
-//     ${invoice}`)) {
-//         return
-//     }
-//     let json = {
-//         out: true,
-//         bolt11: invoice,
-//     }
-//     try {
-//         const response = await postJson(LN_BITS_API_URL,  LN_BITS_API_ADMIN_KEY, "application/json", JSON.stringify(json))    
-//         const paymentHash = response.payment_hash
-//         return paymentHash
-//     } catch (error) {
-//         console.error(`Error submitting invoice: ${error}`)
-//     }    
-// }
-
-// async function decodeInvoice(invoice) {
-//     let json = {
-//         data: invoice
-//     }
-//     const data = await postJson('https://legend.lnbits.com/api/v1/payments/decode', LN_BITS_INVOICE_READ_KEY, 'application/json', JSON.stringify(json))
-//     console.log(data)
-//     return data
-// }
+}
 
 // async function postLNURL(amount) {
 //     let json = {
@@ -197,4 +167,21 @@ export {
 //         console.error(`Error posting json for LNURL ${error}`)
 //     }
 // }
+async function abreviateHash(hash, start, end) {
+    return `${hash.substring(0, start)}...${hash.substring(hash.length - end)}`
+}
+export {
+    getBitcoinPrice, 
+    getLnbitsBalance,
+    getLnbitsTransactions,
+    postJson,
+    getInvoice,
+    getAmountFrom,
+    decodeInvoice,
+    submitInvoiceToPay,
+}
+
+
+
+
 
