@@ -143,6 +143,16 @@ async function payLNURL(invoice) {
     }
 }
 
+async function getHash(){
+    const crypto = require('crypto')
+
+    const paymentDetails = {
+        amount: 'string',
+        description: 'string',
+        comment: 'string',
+    }
+}
+
 async function customAlert(invoice) {
     const amount = await getAmountFrom(invoice)
     const abrevInv = await abreviateHash(invoice, 11, 11)
