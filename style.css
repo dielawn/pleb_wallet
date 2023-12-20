@@ -1,10 +1,11 @@
 :root {
-    --lightBackgroundColor:  rgba(0, 0, 0, 0.653);
-    --darkBackgroundColor:  #192734;
+    --lightBackgroundColor: rgba(255, 166, 0, 0.879);
+    --darkBackgroundColor:  #192734f3;
+    --darkColor:  #192734f7;
     --lightFont: white;
     --darkFont:  black;
     --lightAccentColor: #533502;
-    --darkAccentColor: white;
+    --darkAccentColor: black;
     --font: Helvetica, sans-serif;
 }
 * {
@@ -14,15 +15,15 @@
 .container {
     background-color: var(--darkBackgroundColor);
     font-family: var(--font);
-    color: var(--lightFont);
+    color: var(--darkFont);
     height: 100vh;
+    overflow: scroll;
    }
    
    header {
     border-bottom: 2px solid var(--darkAccentColor);
     background-color: var(--lightBackgroundColor);
-   
- 
+  
    }
    
    h1 {
@@ -38,7 +39,7 @@
     width: 50px;
     cursor: pointer;
     position: relative;
-    left: 400px;
+    left: 375px;
     color: white;
    }
    .closeBtn:hover {
@@ -91,12 +92,14 @@
     height: 100px;
     position: relative;
     top: 40px;
-    outline: solid 1px var(--lightAccentColor);
+    
 
    }
-  
+  .btnConfirm {
+    background-color: chartreuse; 
+  }
    .balance-card {
-    color: var(--lightFont);
+    color: var(--darkFont);
     background-color: var(--lightBackgroundColor);   
     padding-left: 80%;
     padding-top: 20px;
@@ -119,6 +122,7 @@
    .transaction {
     padding-bottom: 10px;
     text-align: left;
+    font-size: 1.5rem;
    }
         
    .transaction-amount {
@@ -160,7 +164,7 @@
     width: 25%;
     max-height: 400px;
     overflow: hidden;  
-
+    color: var(--lightFont);
    }
     
    input {
@@ -187,9 +191,9 @@
     font-size: 1.5rem;
     margin: 10px;
    }
-   .invoice_Btn:hover {
+   button:hover {
     background-color: var(--lightBackgroundColor);
-    color: var(--lightFont);
+    color: var(--darkFont);
    }
    .green {
     color: green;
@@ -204,33 +208,29 @@
     height: 800px;
     display: block;
    }
-   @media (max-width: 876px) {
+   @media (max-width: 800px) {
     .row-item {
       width: 100%;
       height: 200px;
     }
    
     .balance-card {
-      width: 100%;
-      text-align: center;
-      margin-right: 2%;
-      margin-left: 2%;
+      position: relative;
+      right: 50%;
+      
     }
+    .transactionDiv {
+      padding: 50px 20px 0 20px;
+  
+      overflow: scroll;
+      overflow-x: hidden;    
+      background-color: var(--lightBackgroundColor);
+    
+     }
+     .createInvoice {
+      
+     }
    }
    
-   @media (max-width: 615px) {
-    .row {
-      flex-direction: column;
-    }
-   
-    .row-item {
-      margin-top: 1%;
-    }
-   
-    .balance-card {
-      width: 80%;
-      margin: 0 auto;
-      margin-top: 1%;
-    }
-   }
+
    

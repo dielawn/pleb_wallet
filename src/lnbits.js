@@ -126,19 +126,55 @@ async function submitInvoiceToPay(invoice) {
     }    
 }
 
+async function payLNURL(invoice) {
+    try {
+        let json = {
+            description_hash: 'string',
+            callback: 'string',
+            amount: 'string',
+            comment: 'string',
+            description: 'string',
+        }
+        const response = await postJson(`${LN_BITS_API_URL}/lnurl`, LN_BITS_API_ADMIN_KEY, "application/json", JSON.stringify(json))
+        console.log(`LNURL: ${response}`)
+
+    } catch(error) {
+        console.error(`Error paying LNURL: ${error}`)
+    }
+}
+
 async function customAlert(invoice) {
     const amount = await getAmountFrom(invoice)
     const abrevInv = await abreviateHash(invoice, 11, 11)
     return new Promise((resolve, reject) => {
         
         let isPlural = amount > 1
+
         Swal.fire({
             title: `Pay Invoice`,
+            showClass: {
+                popup: `
+                  animate__animated
+                  animate__fadeInUp
+                  animate__faster
+                `
+              },
+              hideClass: {
+                popup: `
+                  animate__animated
+                  animate__fadeOutDown
+                  animate__faster
+                `
+              },
             html: `${amount} sat${isPlural ? 's' : ''}<br>Are you sure you want to pay this invoice?<br> ${abrevInv} `,
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: 'Yes, pay it!',
-            cancelButtonText: 'Cancel',
+            confirmButtonText: `<i class="fas fa-thumbs-up"></i>  Yes, pay it!`,
+            cancelButtonText: `<i class="fa fa-thumbs-down"></i>  Cancel`,
+            customClass: {
+                confirmButton: 'btnConfirm',
+                cancelButton: 'btnCancel',
+            }
         }).then((result) => {
             if (result.isConfirmed) {
                 resolve()
@@ -150,23 +186,32 @@ async function customAlert(invoice) {
     })
     
 }
-
-// async function postLNURL(amount) {
-//     let json = {
-//         description_hash: 'string',
-//         callback: 'string',
-//         amount: amount,
-//         comment: 'string',
-//         description: 'string'
-//     }
-//     try {
-//         const response = await postJson(`${LN_BITS_API_URL}/lnurl`, LN_BITS_API_ADMIN_KEY, 'application/json', JSON.stringify(json))
-//         console.log(response)
-//         return response
-//     } catch (error) {
-//         console.error(`Error posting json for LNURL ${error}`)
-//     }
-// }
+//on success 
+async function confirmedPayment() {
+    Swal.fire({
+        position: "top-center",
+        icon: "success",
+        title: "Transaction Sucess!",
+        showConfirmButton: false,
+        timer: 1500
+      });
+}
+async function postLNURL(amount) {
+    let json = {
+        description_hash: 'string',
+        callback: 'string',
+        amount: amount,
+        comment: 'string',
+        description: 'string'
+    }
+    try {
+        const response = await postJson(`${LN_BITS_API_URL}/lnurl`, LN_BITS_API_ADMIN_KEY, 'application/json', JSON.stringify(json))
+        console.log(response)
+        return response
+    } catch (error) {
+        console.error(`Error posting json for LNURL ${error}`)
+    }
+}
 async function abreviateHash(hash, start, end) {
     return `${hash.substring(0, start)}...${hash.substring(hash.length - end)}`
 }
