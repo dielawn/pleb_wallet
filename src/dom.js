@@ -1,8 +1,128 @@
-import { getLnbitsTransactions, getInvoice, submitInvoiceToPay, decodeInvoice, getBitcoinPrice, getLnbitsBalance } from "./lnbits"
+import { 
+    getLnbitsTransactions, 
+    getInvoice, 
+    submitInvoiceToPay, 
+    decodeInvoice, 
+    getBitcoinPrice, 
+    getLnbitsBalance,
+    updateApiKeys,
+    createNewWallet,
+    getQrCode,
 
-const displayDecodedInvoice = (invoiceResponse) => {
+    } from "./lnbits"
+
+import {  
+    wallets , 
+    currentUser,
+    } from "../config.js"
+
+const displayQrCode = async () => {
+
+    const prevStuff = document.getElementById('displayQrBtn')
+    if (prevStuff) prevStuff.remove()
+
+    const container = document.getElementById('container')
+    const toolbox = document.getElementById('toolBoxDiv')
+  
+    const displayQrBtn = document.createElement('button')
+    displayQrBtn.textContent = 'View QR'
+    displayQrBtn.classList.add('rndBtn')
+    displayQrBtn.id = 'displayQrBtn'
+    toolbox.appendChild(displayQrBtn)
+    displayQrBtn.addEventListener('click', async () => {
+        const invoice = await pasteFromClipBoard()
+        console.log(`invoice: ${invoice}`)
+        const qrCodeSvg = await getQrCode(invoice)
+
+        const qrDiv = document.createElement('div')
+        qrDiv.classList.add('qrDiv')
+        qrDiv.innerHTML = qrCodeSvg
+
+        const rmvBtn = document.createElement('button')
+        rmvBtn.textContent = 'X'
+        rmvBtn.classList.add('closeBtn')
+        qrDiv.appendChild(rmvBtn)
+
+        rmvBtn.addEventListener('click', () => {
+            qrDiv.remove()
+        })
     
-    const containerDiv = document.getElementById('decodeInvoiceDiv')
+        container.appendChild(qrDiv)
+
+    })
+    
+}
+
+const handleNewWallet = async () => {
+    const toolbox = document.getElementById('toolBoxDiv')
+    const container = document.getElementById('container')
+
+    const newWalletBtn = document.createElement('button')
+    newWalletBtn.textContent = 'New Wallet'
+    newWalletBtn.classList.add('rndBtn')
+    newWalletBtn.addEventListener('click', () => {
+        const popUpWin = document.createElement('div')        
+        container.appendChild(popUpWin)
+
+        const nameInput = document.createElement('input')
+        nameInput.placeholder = 'Wallet name'
+        popUpWin.appendChild(nameInput)
+
+        const submitNameBtn = document.createElement('button')
+        submitNameBtn.textContent = 'Create Wallet'
+        popUpWin.appendChild(submitNameBtn)
+
+        submitNameBtn.addEventListener('click', () => {
+            createNewWallet(nameInput.value)
+            displayCurrentWallet()
+            popUpWin.remove()
+        })
+    })
+
+    toolbox.appendChild(newWalletBtn)
+
+}
+
+
+
+const displayCurrentWallet = async () => {
+    const prevWallets =  document.querySelectorAll('.wallets')
+    prevWallets.forEach(wallet => {
+        wallet.remove()
+    })
+  
+    const toolbox = document.getElementById('toolBoxDiv')
+
+    console.log(`16 currentUserWallets: ${currentUser.currentWallet.wallet_name}`)
+
+    for (let i = 0; i < wallets.length; i++) {
+        const option = document.createElement('div')
+        option.innerText = wallets[i].wallet_name
+        option.classList.add('wallets')
+        option.id = `wallet${i}`
+        
+        toolbox.appendChild(option)
+
+        option.addEventListener('click', async () => {
+            console.log(currentUser.currentWallet.wallet_name, i)
+            
+            currentUser.setCurrentWallet(i, () => {
+                updateApiKeys()              
+                displayWalletName()
+                displayWalletBal()
+                displayTransactions()
+            })
+            
+            console.log(currentUser.currentWallet.wallet_name, i)
+            
+        })
+    }     
+}
+
+
+const displayDecodedInvoice = async (invoiceResponse, invoice) => {
+    
+    const createInvoiceDiv = document.getElementById('createInvoice')
     const decodedInvoiceDiv = document.createElement('div')
     decodedInvoiceDiv.classList.add('decodedDiv')
     const dataList = document.createElement('ul')
@@ -13,12 +133,12 @@ const displayDecodedInvoice = (invoiceResponse) => {
         `${(invoiceResponse.amount_msat) / 1000} Sats`,
         (new Date(invoiceResponse.date * 1000).toDateString()),
         (new Date(invoiceResponse.date * 1000).toLocaleTimeString()),
-        `Signature: ${invoiceResponse.signature}`,
+        `Signature: ${await abreviateHash(invoiceResponse.signature, 11, 11)}`,
         `Description: ${invoiceResponse.description}`,
-        `Payment hash: ${invoiceResponse.payment_hash}`,
-        `Payee: ${invoiceResponse.payee}`,
+        `Payment hash: ${await abreviateHash(invoiceResponse.payment_hash, 11, 11)}`,
+        `Payee: ${await abreviateHash(invoiceResponse.payee, 11, 11)}`,
         `Expiry: ${invoiceResponse.expiry}`,
-        `Secret: ${invoiceResponse.payment_secret}`,
+        `Secret: ${await abreviateHash(invoiceResponse.payment_secret, 11, 11)}`,
     ]
 
     const listItems = dataArray.map(item => {
@@ -27,19 +147,40 @@ const displayDecodedInvoice = (invoiceResponse) => {
         return dataItem
    })
 
+   const msg = document.createElement('p')
+   msg.textContent = 'Copied invoice to clipboard!'
+
+   const cpyToClpBrdBtn = document.createElement('button')
+   cpyToClpBrdBtn.textContent = 'Copy to clipboard'
+   cpyToClpBrdBtn.addEventListener('click', () => {
+    copyToClipboard(invoice)
+   })
+
     const closeBtn = document.createElement('button')
     closeBtn.textContent = 'X'
     closeBtn.classList.add('closeBtn')
     closeBtn.addEventListener('click', () => {
-        decodeInvoiceDiv.classList.toggle('hide')
+        decodedInvoiceDiv.classList.toggle('hide')
         decodedInvoiceDiv.remove()
     })
+
+    const qrCodeSvg = await getQrCode(invoice)
+    const qrDiv = document.createElement('div')
+        qrDiv.classList.add('qrDiv')
+        qrDiv.innerHTML = qrCodeSvg
+
 
    dataList.append(...listItems)
    decodedInvoiceDiv.appendChild(closeBtn)
    decodedInvoiceDiv.appendChild(dataList)
+   decodedInvoiceDiv.appendChild(msg)
+   decodedInvoiceDiv.appendChild(qrDiv)
+   decodedInvoiceDiv.appendChild(cpyToClpBrdBtn)
+
    
-   containerDiv.appendChild(decodedInvoiceDiv)
+   
+   
+   createInvoiceDiv.appendChild(decodedInvoiceDiv)
 }
 
 const displayTransactions = async () => {
@@ -117,14 +258,16 @@ async function handleInvoice(amount) {
         const clipMsg =  await copyToClipboard(paymentRequest)
         
         const newTransaction = document.createElement('div')
-        newTransaction.textContent += clipMsg
+        newTransaction.innerHTML = `${clipMsg} <br>${paymentRequest}`
+        const decodeResponse = await decodeInvoice(paymentRequest)
+        await displayDecodedInvoice(decodeResponse, paymentRequest)
        
         createInvoiceDiv.appendChild(newTransaction)
-        amountInput.value = paymentRequest
-        setTimeout(() => {
-            newTransaction.remove()
-            createInvoiceDiv.classList.toggle('hide')
-        }, 1000)
+        amountInput.value = ''
+        // setTimeout(() => {
+        //     newTransaction.remove()
+        //     createInvoiceDiv.classList.toggle('hide')
+        // }, 1000)
        
     } catch (error) {
         console.error(`Error getting invoice`, error)
@@ -166,12 +309,13 @@ async function handleBtns() {
 
     const decodeDivBtn = document.getElementById('decodeDivBtn')
     decodeDivBtn.addEventListener('click', async () => {
-    const decodeInvoiceDiv = document.getElementById('decodeInvoiceDiv')
-    decodeInvoiceDiv.classList.toggle('hide')    
+        const decodeInvoiceDiv = document.getElementById('decodeInvoiceDiv')
+        decodeInvoiceDiv.classList.toggle('hide')    
 
-    const invoice = await pasteFromClipBoard()
-    const data = await decodeInvoice(invoice)
-    displayDecodedInvoice(data)
+        const invoice = await pasteFromClipBoard()
+        const data = await decodeInvoice(invoice)
+        await displayDecodedInvoice(data, invoice)
+        await displayQrCode(invoice)
 })
 
 const sendBtn = document.getElementById('sendBtn')
@@ -227,14 +371,24 @@ async function displayWalletBal() {
     walletBal.textContent = `${string_bal} sats`
 }
 
+async function displayWalletName() {
+    const walletName = document.getElementById('walletName')
+    walletName.innerHTML = `${currentUser.currentWallet.wallet_name}`
+}
+
 export {
-    displayDecodedInvoice,
+    
     displayTransactions,
     handleInvoice,
     handlePayment,
     handleBtns,
     displayBtcPrice,
     displayWalletBal,
+    displayWalletName,
+    displayCurrentWallet,
+    handleNewWallet,
+    displayQrCode,
+
 }
 
 async function abreviateHash(hash, start, end) {

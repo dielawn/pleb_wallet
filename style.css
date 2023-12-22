@@ -31,15 +31,53 @@
     padding: 50px;
     
 }
+.qrDiv {
+  background-color: white;
+  padding: 20px;
+  position: absolute;
+  top: 50%;
+  left: 20%;
+}
+.decodedDiv{
+  position: absolute;
+  top: 20%;
+  left: 35%;
+  background-color: whitesmoke;
+  color: black;
+  padding: 50px;
+  overflow: hidden;
+  width: 500px;
+  height: 800px;
+}
+ul {
+  list-style: none;
+}
+.wallets {
+  position: relative;
+  top: 50px;
+  margin: 20px;
+  padding: 50px;
+  font-size: 1.5rem;
+  outline: solid 3px white;
+  width: 100px;
+  cursor: pointer;
+  color: white;
+}
+.wallets:hover {
+  background-color: var(--lightBackgroundColor);
+}
+.wallets::selection{
+  background-color: var(--lightBackgroundColor);
+}
    .closeBtn {
     font-size: 3rem;
-    background-color: transparent;    
+    background-color: var(--lightBackgroundColor);    
     border: none;
     border-radius: 50%;
     width: 50px;
     cursor: pointer;
     position: relative;
-    left: 375px;
+    
     color: white;
    }
    .closeBtn:hover {

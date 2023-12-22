@@ -1,9 +1,15 @@
-import config from '../config.js'
+import { currentUser, wallets } from "../config"
 
 const LN_BITS_API_URL = `https://legend.lnbits.com/api/v1/payments`
 const LN_BITS_API_WALLET = `https://legend.lnbits.com/api/v1/wallet`
-const LN_BITS_API_ADMIN_KEY = config.adminKey
-const LN_BITS_INVOICE_READ_KEY = config.invKey
+let LN_BITS_API_ADMIN_KEY = currentUser.currentWallet.admin_key
+let LN_BITS_INVOICE_READ_KEY = currentUser.currentWallet.inv_rd_key
+
+async function updateApiKeys() {
+     LN_BITS_API_ADMIN_KEY = currentUser.currentWallet.admin_key
+     LN_BITS_INVOICE_READ_KEY = currentUser.currentWallet.inv_rd_key
+}
+
 
 async function getData(url, apikey, content_type) {
     const headers = new Headers()
@@ -50,7 +56,19 @@ async function postJson(url, apikey, content_type, json) {
     }
 }
 
+
 //get functions
+const getQrCode = async (invoice) => {
+    let data = await getData(`https://legend.lnbits.com/api/v1/qrcode/${invoice}`)
+    console.log(`data: ${data}`)
+  
+    return data
+}
+const getWallets = async () => {
+    let data = await getData(LN_BITS_API_WALLET, LN_BITS_API_ADMIN_KEY)
+    console.log(data)
+}
+
 async function getBitcoinPrice() {
     let data = await getData(`https://api.coinbase.com/v2/prices/BTC-USD/spot`)
     let json = JSON.parse(data)
@@ -60,9 +78,9 @@ async function getBitcoinPrice() {
 }
 
 async function getLnbitsBalance() {
+   
     let data = await getData(LN_BITS_API_WALLET, LN_BITS_API_ADMIN_KEY)
-    let json = JSON.parse(data)
-    
+    let json = JSON.parse(data)    
     let balance = Number(json.balance) / 1000
 
     return balance;
@@ -74,6 +92,28 @@ async function getLnbitsTransactions() {
 }
 
 //post functions
+const createNewWallet = async (name) => {
+    let json = {
+        name: name,
+    }
+    try {
+        const response = await postJson(LN_BITS_API_WALLET, LN_BITS_API_ADMIN_KEY, 'application/json', JSON.stringify(json))
+        console.log(wallets.length)
+        currentUser.addWallet(response.id, response.adminKey, response.inkey, response.name)
+        wallets.push(
+            {
+                wallet_id: response.id,
+                admin_key: response.adminKey,
+                inv_rd_key: response.inkey,
+                wallet_name: response.name,
+            },
+        )
+        console.log(wallets.length)
+        return response
+    } catch (err) {
+        console.error(`Error creating new wallet: ${err}`)
+    }
+}
 async function getInvoice(amount) {
     
     let json = {
@@ -114,10 +154,8 @@ async function submitInvoiceToPay(invoice) {
     let json = {
         out: true,
         bolt11: invoice,
-    }
-   
+    }   
         const response = await postJson(LN_BITS_API_URL,  LN_BITS_API_ADMIN_KEY, "application/json", JSON.stringify(json))    
-        console.log(response)
         const paymentHash = response.payment_hash
         console.log(`Payment successful: ${paymentHash}`)
         return paymentHash
@@ -127,13 +165,15 @@ async function submitInvoiceToPay(invoice) {
 }
 
 async function payLNURL(invoice) {
+    const data = decodeInvoice(invoice)
+    console.log(data)
     try {
         let json = {
-            description_hash: 'string',
-            callback: 'string',
-            amount: 'string',
-            comment: 'string',
-            description: 'string',
+            description_hash: data.description_hash,
+            callback: null,
+            amount: data.amount,
+            comment: '',
+            description: 'LNURL',
         }
         const response = await postJson(`${LN_BITS_API_URL}/lnurl`, LN_BITS_API_ADMIN_KEY, "application/json", JSON.stringify(json))
         console.log(`LNURL: ${response}`)
@@ -143,23 +183,29 @@ async function payLNURL(invoice) {
     }
 }
 
-async function getHash(){
-    const crypto = require('crypto')
-
-    const paymentDetails = {
-        amount: 'string',
-        description: 'string',
-        comment: 'string',
+const lnurAuth = async () => {
+    let json = {
+        callback: ''
     }
+    const response = await postJson('https://legend.lnbits.com/api/v1/lnurlauth', LN_BITS_API_ADMIN_KEY, 'application/json', JSON.stringify(json)) 
 }
+
+// async function getHash(){
+//     const crypto = require('crypto')
+
+//     const paymentDetails = {
+//         amount: 'string',
+//         description: 'string',
+//         comment: 'string',
+//     }
+// }
 
 async function customAlert(invoice) {
     const amount = await getAmountFrom(invoice)
     const abrevInv = await abreviateHash(invoice, 11, 11)
+    const isPlural = amount !== 1 || amount !== -1 
     return new Promise((resolve, reject) => {
         
-        let isPlural = amount > 1
-
         Swal.fire({
             title: `Pay Invoice`,
             showClass: {
@@ -176,7 +222,7 @@ async function customAlert(invoice) {
                   animate__faster
                 `
               },
-            html: `${amount} sat${isPlural ? 's' : ''}<br>Are you sure you want to pay this invoice?<br> ${abrevInv} `,
+            html: `${amount} ${isPlural ? 'sats' : 'sat'}<br>Are you sure you want to pay this invoice?<br> ${abrevInv} `,
             icon: 'question',
             showCancelButton: true,
             confirmButtonText: `<i class="fas fa-thumbs-up"></i>  Yes, pay it!`,
@@ -234,6 +280,11 @@ export {
     getAmountFrom,
     decodeInvoice,
     submitInvoiceToPay,
+    updateApiKeys,
+    createNewWallet,
+    getWallets,
+    getQrCode,
+
 }
 
 
