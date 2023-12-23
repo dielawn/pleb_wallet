@@ -50,7 +50,6 @@ const displayQrCode = async () => {
         container.appendChild(qrDiv)
 
     })
-    
 }
 
 const handleNewWallet = async () => {
@@ -123,22 +122,22 @@ const displayCurrentWallet = async () => {
 const displayDecodedInvoice = async (invoiceResponse, invoice) => {
     
     const createInvoiceDiv = document.getElementById('createInvoice')
-    const decodedInvoiceDiv = document.createElement('div')
-    decodedInvoiceDiv.classList.add('decodedDiv')
+    const decodedInvoiceDiv = document.getElementById('decodedDiv')
+
+//ul for invoice data
     const dataList = document.createElement('ul')
-    dataList.classList.add('data-list')
-    
+    dataList.classList.add('data-list')    
     const dataArray = [ 
         `Currency: ${invoiceResponse.currency}`, 
         `${(invoiceResponse.amount_msat) / 1000} Sats`,
         (new Date(invoiceResponse.date * 1000).toDateString()),
         (new Date(invoiceResponse.date * 1000).toLocaleTimeString()),
-        `Signature: ${await abreviateHash(invoiceResponse.signature, 11, 11)}`,
+        // `Signature: ${await abreviateHash(invoiceResponse.signature, 11, 11)}`,
         `Description: ${invoiceResponse.description}`,
-        `Payment hash: ${await abreviateHash(invoiceResponse.payment_hash, 11, 11)}`,
-        `Payee: ${await abreviateHash(invoiceResponse.payee, 11, 11)}`,
-        `Expiry: ${invoiceResponse.expiry}`,
-        `Secret: ${await abreviateHash(invoiceResponse.payment_secret, 11, 11)}`,
+        // `Payment hash: ${await abreviateHash(invoiceResponse.payment_hash, 11, 11)}`,
+        // `Payee: ${await abreviateHash(invoiceResponse.payee, 11, 11)}`,
+        // `Expiry: ${invoiceResponse.expiry}`,
+        // `Secret: ${await abreviateHash(invoiceResponse.payment_secret, 11, 11)}`,
     ]
 
     const listItems = dataArray.map(item => {
@@ -147,46 +146,49 @@ const displayDecodedInvoice = async (invoiceResponse, invoice) => {
         return dataItem
    })
 
-   const msg = document.createElement('p')
-   msg.textContent = 'Copied invoice to clipboard!'
-
+   const msg = document.createElement('h3')
+   msg.textContent = 'Invoice copied to clipboard!'
+//copy btn
    const cpyToClpBrdBtn = document.createElement('button')
-   cpyToClpBrdBtn.textContent = 'Copy to clipboard'
+   cpyToClpBrdBtn.textContent = `Copy: ${await abreviateHash(invoice, 11, 11)}`
+   cpyToClpBrdBtn.classList.add('cpyInvoiceBtn')
    cpyToClpBrdBtn.addEventListener('click', () => {
-    copyToClipboard(invoice)
+        copyToClipboard(invoice)
    })
-
+//close btn
     const closeBtn = document.createElement('button')
     closeBtn.textContent = 'X'
     closeBtn.classList.add('closeBtn')
     closeBtn.addEventListener('click', () => {
         decodedInvoiceDiv.classList.toggle('hide')
+        createInvoiceDiv.classList.toggle('hide')
         decodedInvoiceDiv.remove()
     })
-
+//qr element
     const qrCodeSvg = await getQrCode(invoice)
     const qrDiv = document.createElement('div')
         qrDiv.classList.add('qrDiv')
         qrDiv.innerHTML = qrCodeSvg
 
+    if (decodedInvoiceDiv.classList.contains('hide')) {
+        decodedInvoiceDiv.classList.remove('hide')
+    }
 
    dataList.append(...listItems)
    decodedInvoiceDiv.appendChild(closeBtn)
-   decodedInvoiceDiv.appendChild(dataList)
    decodedInvoiceDiv.appendChild(msg)
-   decodedInvoiceDiv.appendChild(qrDiv)
    decodedInvoiceDiv.appendChild(cpyToClpBrdBtn)
-
-   
-   
+   decodedInvoiceDiv.appendChild(dataList)
+   decodedInvoiceDiv.appendChild(qrDiv)
    
    createInvoiceDiv.appendChild(decodedInvoiceDiv)
+   
 }
 
 const displayTransactions = async () => {
     const transactionDiv = document.getElementById('transactionDiv')
     
-    const transactions = await getLnbitsTransactions()
+    const transactions = await currentUser.currentWallet.getLnbitsTransactions()
     transactionDiv.innerHTML = ''
     //display message if no tx history
     if (transactions.length === 0) {
@@ -251,30 +253,25 @@ const displayTransactions = async () => {
 
 async function handleInvoice(amount) {    
     const amountInput = document.getElementById('amountInput')
-    const createInvoiceDiv = document.getElementById('createInvoice')
+    const decodeInvoiceDiv = document.getElementById('decodedDiv')
     try {        
         const response = await getInvoice(amount)      
-        const paymentRequest = response.payment_request  
-        const clipMsg =  await copyToClipboard(paymentRequest)
-        
-        const newTransaction = document.createElement('div')
-        newTransaction.innerHTML = `${clipMsg} <br>${paymentRequest}`
-        const decodeResponse = await decodeInvoice(paymentRequest)
-        await displayDecodedInvoice(decodeResponse, paymentRequest)
+        const invoice = response.payment_request  
+
+        await copyToClipboard(invoice)        
        
-        createInvoiceDiv.appendChild(newTransaction)
+        const data = await decodeInvoice(invoice)
+        decodeInvoiceDiv.classList.remove('hide')   
+        await displayDecodedInvoice(data, invoice)
+        await displayQrCode(invoice)
         amountInput.value = ''
-        // setTimeout(() => {
-        //     newTransaction.remove()
-        //     createInvoiceDiv.classList.toggle('hide')
-        // }, 1000)
-       
+           
     } catch (error) {
         console.error(`Error getting invoice`, error)
     }
 }
 async function handlePayment(invoice) {
-    const decodeInvoiceDiv = document.getElementById('decodeInvoiceDiv')
+    const decodeInvoiceDiv = document.getElementById('decodedDiv')
     try {
         const response = await submitInvoiceToPay(invoice)
         console.log(`response: ${response}`)
@@ -300,18 +297,46 @@ async function copyToClipboard(invoiceTxt) {
     
 }
 
-async function handleBtns() {
-    const decodeInvoiceDiv = document.getElementById('decodeInvoiceDiv')
+const inputBtnPkg = () => {
+    const label = document.createElement('label')
+    const input = document.createElement('input')
+}
+
+const renderPopUp = async () => {
+    const container = document.getElementById('container')
+    const popUp = document.createElement('div')
+    const contentDiv = document.createElement('div')
+    
+    popUp.classList.add('flex')
+    contentDiv.classList.add('flexColumn')
+
+    
+
+
+    const rmvBtn = document.createElement('button')
+        rmvBtn.textContent = 'X'
+        rmvBtn.classList.add('closeBtn')
+        rmvBtn.addEventListener('click', () => {
+            popUp.remove()
+        })
+        
+    
+    container.appendChild(popUp)
+    popUp.appendChild(contentDiv)
+    popUp.appendChild(rmvBtn)
+}
+
+const handleBtns = async () => {
+    //decoded invoice
+    const decodeInvoiceDiv = document.getElementById('decodedDiv')
     decodeInvoiceDiv.classList.add('hide')
 
     const createInvoiceDiv = document.getElementById('createInvoice')
     createInvoiceDiv.classList.add('hide')
 
     const decodeDivBtn = document.getElementById('decodeDivBtn')
-    decodeDivBtn.addEventListener('click', async () => {
-        const decodeInvoiceDiv = document.getElementById('decodeInvoiceDiv')
+    decodeDivBtn.addEventListener('click', async () => {       
         decodeInvoiceDiv.classList.toggle('hide')    
-
         const invoice = await pasteFromClipBoard()
         const data = await decodeInvoice(invoice)
         await displayDecodedInvoice(data, invoice)
@@ -328,18 +353,23 @@ const sendBtn = document.getElementById('sendBtn')
         }
     })    
 
-const recieveBtn = document.getElementById('recieveBtn')
-    recieveBtn.addEventListener('click', () => {
-        const createInvoiceDiv = document.getElementById('createInvoice')
-        createInvoiceDiv.classList.toggle('hide')
+    const recieveBtn = document.getElementById('recieveBtn')
+        recieveBtn.addEventListener('click', () => {
+            const createInvoiceDiv = document.getElementById('createInvoice')
+            //opens invoice input and submit
+            createInvoiceDiv.classList.toggle('hide')
   
-    })
+        })
     const newInvBtn = document.getElementById('createInvBtn')
-    newInvBtn.addEventListener('click', async () => {
-        const amount = await returnAmount()
-        handleInvoice(amount)
-    })
-}
+        newInvBtn.addEventListener('click', async () => {
+            //submits amount returns invoice and hides input and btn
+            const amount = await returnAmount()
+            handleInvoice(amount)
+            // createInvoiceDiv.classList.toggle('hide')
+            
+        })
+    }
+
 async function returnAmount() {
     const amountInput = document.getElementById('amountInput')
         if (amountInput.value <= 0 || amountInput.value === '') {

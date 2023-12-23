@@ -284,7 +284,8 @@ export {
     createNewWallet,
     getWallets,
     getQrCode,
-
+    getData,
+    
 }
 
 

@@ -31,24 +31,18 @@
     padding: 50px;
     
 }
-.qrDiv {
-  background-color: white;
-  padding: 20px;
-  position: absolute;
-  top: 50%;
-  left: 20%;
+
+.toolBox {
+  position: relative;
+  top: 150px;
+  border: solid white 3px;
+  width: 800px;
+  height: 400px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 }
-.decodedDiv{
-  position: absolute;
-  top: 20%;
-  left: 35%;
-  background-color: whitesmoke;
-  color: black;
-  padding: 50px;
-  overflow: hidden;
-  width: 500px;
-  height: 800px;
-}
+
+
 ul {
   list-style: none;
 }
@@ -59,9 +53,12 @@ ul {
   padding: 50px;
   font-size: 1.5rem;
   outline: solid 3px white;
-  width: 100px;
+  width: 50px;
+  height: 50px;
   cursor: pointer;
   color: white;
+  display: flex;
+  justify-content: center;
 }
 .wallets:hover {
   background-color: var(--lightBackgroundColor);
@@ -69,6 +66,17 @@ ul {
 .wallets::selection{
   background-color: var(--lightBackgroundColor);
 }
+.cpyInvoiceBtn {
+  height: 50px;
+  width: 100%;
+  color: black;
+  position: relative;
+  top: 0;
+  
+  font-size: 1.5rem;
+  margin: 20px;
+  border-radius: 10px;
+ }
    .closeBtn {
     font-size: 3rem;
     background-color: var(--lightBackgroundColor);    
@@ -133,6 +141,7 @@ ul {
     
 
    }
+
   .btnConfirm {
     background-color: chartreuse; 
   }
@@ -140,8 +149,9 @@ ul {
     color: var(--darkFont);
     background-color: var(--lightBackgroundColor);   
     padding-left: 80%;
+    padding-right: 10%;
     padding-top: 20px;
-    width: 80%; 
+    width: max-content; 
    }
    
    .balance-card p {
@@ -178,6 +188,17 @@ ul {
    .hide {
     display: none;
    }
+   .flexColumn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+   }
+   .flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   }
    .block {
     display: block;
    }
@@ -195,17 +216,30 @@ ul {
     background-color: var(--lightBackgroundColor);
   
    }
-   .invoice {
+   .decodedDiv{
+    position: absolute;
+    top: 20%;
+    left: 35%;
+    background-color: whitesmoke;
+    color: black;
+    padding: 50px;
+    overflow: hidden;
+    width: 500px;
+    height: 800px;
+  }
+  .invoice {
+    border: solid 3px white;
+    background-color: whitesmoke;
+  }
+  .qrDiv {
+    background-color: white;
     padding: 20px;
-    padding-left: 40%;    
-    font-size: 1.25em;
-    width: 25%;
-    max-height: 400px;
-    overflow: hidden;  
-    color: var(--lightFont);
-   }
-    
-   input {
+    position: relative;
+    width: fit-content;
+    top: 55%;
+    left: 20%;
+  }
+  input {
     height: 75px;
     width: 300px;
     border-radius: 7px;
@@ -265,9 +299,7 @@ ul {
       background-color: var(--lightBackgroundColor);
     
      }
-     .createInvoice {
-      
-     }
+
    }
    
 

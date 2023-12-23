@@ -1,11 +1,3 @@
-/*
- * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
- * This devtool is neither made for production nor for readable output files.
- * It uses "eval()" calls to create a separate source file in the browser devtools.
- * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
- * or disable the default devtool with "devtool: false".
- * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
- */
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
@@ -16,7 +8,58 @@
   \*******************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   currentUser: () => (/* binding */ currentUser),\n/* harmony export */   nextWallet: () => (/* binding */ nextWallet),\n/* harmony export */   wallets: () => (/* binding */ wallets)\n/* harmony export */ });\n/* harmony import */ var _wallets__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./wallets */ \"./wallets.js\");\n\nconst wallets = [{\n  wallet_id: 'd03030f5398a410fbe8a1343daca0f0e',\n  admin_key: 'd5805522bd52408cac2153f0ec5176d7',\n  inv_rd_key: '4788e7d2d7aa483495692127dccdd6f3',\n  wallet_name: 'Pleb wallet'\n}, {\n  wallet_id: '2278486a2cf04aae9d8ff1fb0ac3da20',\n  admin_key: '8b94a55696f445cb846f06c73f88e858',\n  inv_rd_key: 'cf836d58fb5a46ae8ac861f061f5c7a9',\n  wallet_name: 'Cashu: mint de pineNut!'\n}];\nconst currentUser = new _wallets__WEBPACK_IMPORTED_MODULE_0__.User();\nconsole.log(`${currentUser.wallets}`);\nconst handleUser = () => {\n  for (let i = 0; i < wallets.length; i++) {\n    const id = wallets[i].wallet_id;\n    const admKey = wallets[i].admin_key;\n    const invKey = wallets[i].inv_rd_key;\n    const walletName = wallets[i].wallet_name;\n    currentUser.addWallet(id, admKey, invKey, walletName);\n  }\n};\nconst handleDefault = () => {\n  if (currentUser.currentWallet === null) {\n    currentUser.currentWallet = wallets[1];\n  }\n};\nconst nextWallet = index => {\n  if (wallets.length < index) {\n    index = 0;\n  }\n  currentUser.currentWallet = wallets[index + 1];\n};\nhandleUser();\nhandleDefault();\n// console.log(`4 currentUserWallets: ${currentUser.currentWallet.wallet_name}`)\n\n\n//# sourceURL=webpack://pleb_wallet/./config.js?");
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   LN_BITS_API_ADMIN_KEY: () => (/* binding */ LN_BITS_API_ADMIN_KEY),
+/* harmony export */   LN_BITS_INVOICE_READ_KEY: () => (/* binding */ LN_BITS_INVOICE_READ_KEY),
+/* harmony export */   currentUser: () => (/* binding */ currentUser),
+/* harmony export */   nextWallet: () => (/* binding */ nextWallet),
+/* harmony export */   wallets: () => (/* binding */ wallets)
+/* harmony export */ });
+/* harmony import */ var _wallets__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./wallets */ "./wallets.js");
+
+const wallets = [{
+  wallet_id: 'd03030f5398a410fbe8a1343daca0f0e',
+  admin_key: 'd5805522bd52408cac2153f0ec5176d7',
+  inv_rd_key: '4788e7d2d7aa483495692127dccdd6f3',
+  wallet_name: 'Pleb wallet'
+}, {
+  wallet_id: '2278486a2cf04aae9d8ff1fb0ac3da20',
+  admin_key: '8b94a55696f445cb846f06c73f88e858',
+  inv_rd_key: 'cf836d58fb5a46ae8ac861f061f5c7a9',
+  wallet_name: 'Wallnut'
+}];
+const currentUser = new _wallets__WEBPACK_IMPORTED_MODULE_0__.User();
+console.log(`${currentUser.wallets}`);
+const handleUser = () => {
+  for (let i = 0; i < wallets.length; i++) {
+    const id = wallets[i].wallet_id;
+    const admKey = wallets[i].admin_key;
+    const invKey = wallets[i].inv_rd_key;
+    const walletName = wallets[i].wallet_name;
+    currentUser.addWallet(id, admKey, invKey, walletName);
+  }
+};
+const handleDefault = () => {
+  if (currentUser.currentWallet === null) {
+    currentUser.currentWallet = wallets[1];
+  }
+};
+const nextWallet = index => {
+  if (wallets.length < index) {
+    index = 0;
+  }
+  currentUser.currentWallet = wallets[index + 1];
+};
+handleUser();
+handleDefault();
+const LN_BITS_API_URL = `https://legend.lnbits.com/api/v1/payments`;
+const LN_BITS_API_WALLET = `https://legend.lnbits.com/api/v1/wallet`;
+let LN_BITS_API_ADMIN_KEY = currentUser.currentWallet.admin_key;
+let LN_BITS_INVOICE_READ_KEY = currentUser.currentWallet.inv_rd_key;
+
+// console.log(`4 currentUserWallets: ${currentUser.currentWallet.wallet_name}`)
+
 
 /***/ }),
 
@@ -26,7 +69,331 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   displayBtcPrice: () => (/* binding */ displayBtcPrice),\n/* harmony export */   displayCurrentWallet: () => (/* binding */ displayCurrentWallet),\n/* harmony export */   displayQrCode: () => (/* binding */ displayQrCode),\n/* harmony export */   displayTransactions: () => (/* binding */ displayTransactions),\n/* harmony export */   displayWalletBal: () => (/* binding */ displayWalletBal),\n/* harmony export */   displayWalletName: () => (/* binding */ displayWalletName),\n/* harmony export */   handleBtns: () => (/* binding */ handleBtns),\n/* harmony export */   handleInvoice: () => (/* binding */ handleInvoice),\n/* harmony export */   handleNewWallet: () => (/* binding */ handleNewWallet),\n/* harmony export */   handlePayment: () => (/* binding */ handlePayment)\n/* harmony export */ });\n/* harmony import */ var _lnbits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lnbits */ \"./src/lnbits.js\");\n/* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config.js */ \"./config.js\");\n\n\nconst displayQrCode = async () => {\n  const prevStuff = document.getElementById('displayQrBtn');\n  if (prevStuff) prevStuff.remove();\n  const container = document.getElementById('container');\n  const toolbox = document.getElementById('toolBoxDiv');\n  const displayQrBtn = document.createElement('button');\n  displayQrBtn.textContent = 'View QR';\n  displayQrBtn.classList.add('rndBtn');\n  displayQrBtn.id = 'displayQrBtn';\n  toolbox.appendChild(displayQrBtn);\n  displayQrBtn.addEventListener('click', async () => {\n    const invoice = await pasteFromClipBoard();\n    console.log(`invoice: ${invoice}`);\n    const qrCodeSvg = await (0,_lnbits__WEBPACK_IMPORTED_MODULE_0__.getQrCode)(invoice);\n    const qrDiv = document.createElement('div');\n    qrDiv.classList.add('qrDiv');\n    qrDiv.innerHTML = qrCodeSvg;\n    const rmvBtn = document.createElement('button');\n    rmvBtn.textContent = 'X';\n    rmvBtn.classList.add('closeBtn');\n    qrDiv.appendChild(rmvBtn);\n    rmvBtn.addEventListener('click', () => {\n      qrDiv.remove();\n    });\n    container.appendChild(qrDiv);\n  });\n};\nconst handleNewWallet = async () => {\n  const toolbox = document.getElementById('toolBoxDiv');\n  const container = document.getElementById('container');\n  const newWalletBtn = document.createElement('button');\n  newWalletBtn.textContent = 'New Wallet';\n  newWalletBtn.classList.add('rndBtn');\n  newWalletBtn.addEventListener('click', () => {\n    const popUpWin = document.createElement('div');\n    container.appendChild(popUpWin);\n    const nameInput = document.createElement('input');\n    nameInput.placeholder = 'Wallet name';\n    popUpWin.appendChild(nameInput);\n    const submitNameBtn = document.createElement('button');\n    submitNameBtn.textContent = 'Create Wallet';\n    popUpWin.appendChild(submitNameBtn);\n    submitNameBtn.addEventListener('click', () => {\n      (0,_lnbits__WEBPACK_IMPORTED_MODULE_0__.createNewWallet)(nameInput.value);\n      displayCurrentWallet();\n      popUpWin.remove();\n    });\n  });\n  toolbox.appendChild(newWalletBtn);\n};\nconst displayCurrentWallet = async () => {\n  const prevWallets = document.querySelectorAll('.wallets');\n  prevWallets.forEach(wallet => {\n    wallet.remove();\n  });\n  const toolbox = document.getElementById('toolBoxDiv');\n  console.log(`16 currentUserWallets: ${_config_js__WEBPACK_IMPORTED_MODULE_1__.currentUser.currentWallet.wallet_name}`);\n  for (let i = 0; i < _config_js__WEBPACK_IMPORTED_MODULE_1__.wallets.length; i++) {\n    const option = document.createElement('div');\n    option.innerText = _config_js__WEBPACK_IMPORTED_MODULE_1__.wallets[i].wallet_name;\n    option.classList.add('wallets');\n    option.id = `wallet${i}`;\n    toolbox.appendChild(option);\n    option.addEventListener('click', async () => {\n      console.log(_config_js__WEBPACK_IMPORTED_MODULE_1__.currentUser.currentWallet.wallet_name, i);\n      _config_js__WEBPACK_IMPORTED_MODULE_1__.currentUser.setCurrentWallet(i, () => {\n        (0,_lnbits__WEBPACK_IMPORTED_MODULE_0__.updateApiKeys)();\n        displayWalletName();\n        displayWalletBal();\n        displayTransactions();\n      });\n      console.log(_config_js__WEBPACK_IMPORTED_MODULE_1__.currentUser.currentWallet.wallet_name, i);\n    });\n  }\n};\nconst displayDecodedInvoice = async (invoiceResponse, invoice) => {\n  const createInvoiceDiv = document.getElementById('createInvoice');\n  const decodedInvoiceDiv = document.createElement('div');\n  decodedInvoiceDiv.classList.add('decodedDiv');\n  const dataList = document.createElement('ul');\n  dataList.classList.add('data-list');\n  const dataArray = [`Currency: ${invoiceResponse.currency}`, `${invoiceResponse.amount_msat / 1000} Sats`, new Date(invoiceResponse.date * 1000).toDateString(), new Date(invoiceResponse.date * 1000).toLocaleTimeString(), `Signature: ${await abreviateHash(invoiceResponse.signature, 11, 11)}`, `Description: ${invoiceResponse.description}`, `Payment hash: ${await abreviateHash(invoiceResponse.payment_hash, 11, 11)}`, `Payee: ${await abreviateHash(invoiceResponse.payee, 11, 11)}`, `Expiry: ${invoiceResponse.expiry}`, `Secret: ${await abreviateHash(invoiceResponse.payment_secret, 11, 11)}`];\n  const listItems = dataArray.map(item => {\n    const dataItem = document.createElement('li');\n    dataItem.innerText = `${item}`;\n    return dataItem;\n  });\n  const msg = document.createElement('p');\n  msg.textContent = 'Copied invoice to clipboard!';\n  const cpyToClpBrdBtn = document.createElement('button');\n  cpyToClpBrdBtn.textContent = 'Copy to clipboard';\n  cpyToClpBrdBtn.addEventListener('click', () => {\n    copyToClipboard(invoice);\n  });\n  const closeBtn = document.createElement('button');\n  closeBtn.textContent = 'X';\n  closeBtn.classList.add('closeBtn');\n  closeBtn.addEventListener('click', () => {\n    decodedInvoiceDiv.classList.toggle('hide');\n    decodedInvoiceDiv.remove();\n  });\n  const qrCodeSvg = await (0,_lnbits__WEBPACK_IMPORTED_MODULE_0__.getQrCode)(invoice);\n  const qrDiv = document.createElement('div');\n  qrDiv.classList.add('qrDiv');\n  qrDiv.innerHTML = qrCodeSvg;\n  dataList.append(...listItems);\n  decodedInvoiceDiv.appendChild(closeBtn);\n  decodedInvoiceDiv.appendChild(dataList);\n  decodedInvoiceDiv.appendChild(msg);\n  decodedInvoiceDiv.appendChild(qrDiv);\n  decodedInvoiceDiv.appendChild(cpyToClpBrdBtn);\n  createInvoiceDiv.appendChild(decodedInvoiceDiv);\n};\nconst displayTransactions = async () => {\n  const transactionDiv = document.getElementById('transactionDiv');\n  const transactions = await (0,_lnbits__WEBPACK_IMPORTED_MODULE_0__.getLnbitsTransactions)();\n  transactionDiv.innerHTML = '';\n  //display message if no tx history\n  if (transactions.length === 0) {\n    const newTransaction = document.createElement('div');\n    newTransaction.textContent = 'No transactions yet';\n    createInvoiceDiv.appendChild(newTransaction);\n    return;\n  }\n  transactions.forEach(function (tx) {\n    const checkingId = tx.checking_id;\n    const bolt11 = tx.bolt11;\n    const pending = tx.pending;\n    const preimage = tx.preimage;\n    const fee = tx.fee;\n    const memo = tx.memo;\n    let amount = Math.floor(Number(tx.amount) / 1000);\n    const time = new Date(tx.time * 1000);\n    const formatedDate = time.toDateString();\n    const formatedTime = time.toLocaleTimeString();\n    const isPositive = amount > 0;\n    const isValid = !pending && !document.querySelector(`p[data-checking-id=\"${checkingId}\"]`);\n    const isValidDeposit = isValid && isPositive;\n    const isValidDebit = isValid && !isPositive && preimage !== \"0000000000000000000000000000000000000000000000000000000000000000\";\n    const shouldDisplay = isValidDeposit || isValidDebit;\n    if (shouldDisplay) {\n      if (!isPositive) {\n        amount += fee / 1000;\n      }\n      const transactionContainer = document.createElement('div');\n      transactionContainer.classList.add('transaction-container');\n      const txAmountEl = document.createElement('p');\n      txAmountEl.classList.add('transaction-amount');\n      txAmountEl.classList.add(isPositive ? 'green' : 'red');\n      txAmountEl.innerHTML = `${isPositive ? '+' : ''}${amount} sats, <br>`;\n      const txInvoiceEl = document.createElement('p');\n      txInvoiceEl.classList.add('transaction');\n      txInvoiceEl.setAttribute('data-checking-id', checkingId);\n      txInvoiceEl.innerHTML = `${isPositive ? 'Received' : 'Sent'}: <span title= \"${bolt11}\">${bolt11.substring(0, 11)}...${bolt11.substring(bolt11.length - 11, bolt11.length)}</span>`;\n      const txDetailEl = document.createElement('p');\n      txDetailEl.classList.add('transaction');\n      txDetailEl.innerHTML = `Memo:${memo} <br>${formatedDate}, <br>${formatedTime}`;\n      transactionContainer.appendChild(txAmountEl);\n      transactionContainer.appendChild(txInvoiceEl);\n      transactionContainer.appendChild(txDetailEl);\n      transactionDiv.appendChild(transactionContainer);\n    }\n  });\n};\nasync function handleInvoice(amount) {\n  const amountInput = document.getElementById('amountInput');\n  const createInvoiceDiv = document.getElementById('createInvoice');\n  try {\n    const response = await (0,_lnbits__WEBPACK_IMPORTED_MODULE_0__.getInvoice)(amount);\n    const paymentRequest = response.payment_request;\n    const clipMsg = await copyToClipboard(paymentRequest);\n    const newTransaction = document.createElement('div');\n    newTransaction.innerHTML = `${clipMsg} <br>${paymentRequest}`;\n    const decodeResponse = await (0,_lnbits__WEBPACK_IMPORTED_MODULE_0__.decodeInvoice)(paymentRequest);\n    await displayDecodedInvoice(decodeResponse, paymentRequest);\n    createInvoiceDiv.appendChild(newTransaction);\n    amountInput.value = '';\n    // setTimeout(() => {\n    //     newTransaction.remove()\n    //     createInvoiceDiv.classList.toggle('hide')\n    // }, 1000)\n  } catch (error) {\n    console.error(`Error getting invoice`, error);\n  }\n}\nasync function handlePayment(invoice) {\n  const decodeInvoiceDiv = document.getElementById('decodeInvoiceDiv');\n  try {\n    const response = await (0,_lnbits__WEBPACK_IMPORTED_MODULE_0__.submitInvoiceToPay)(invoice);\n    console.log(`response: ${response}`);\n    const newTransaction = document.createElement('div');\n    newTransaction.textContent = response;\n    decodeInvoiceDiv.appendChild(newTransaction);\n  } catch (error) {\n    console.error(`Error submitting invoice`, error);\n  }\n}\nasync function copyToClipboard(invoiceTxt) {\n  try {\n    await navigator.clipboard.writeText(invoiceTxt);\n    return 'Copied to clipboard';\n  } catch {\n    return 'Error copying to clipboard';\n  }\n}\nasync function handleBtns() {\n  const decodeInvoiceDiv = document.getElementById('decodeInvoiceDiv');\n  decodeInvoiceDiv.classList.add('hide');\n  const createInvoiceDiv = document.getElementById('createInvoice');\n  createInvoiceDiv.classList.add('hide');\n  const decodeDivBtn = document.getElementById('decodeDivBtn');\n  decodeDivBtn.addEventListener('click', async () => {\n    const decodeInvoiceDiv = document.getElementById('decodeInvoiceDiv');\n    decodeInvoiceDiv.classList.toggle('hide');\n    const invoice = await pasteFromClipBoard();\n    const data = await (0,_lnbits__WEBPACK_IMPORTED_MODULE_0__.decodeInvoice)(invoice);\n    await displayDecodedInvoice(data, invoice);\n    await displayQrCode(invoice);\n  });\n  const sendBtn = document.getElementById('sendBtn');\n  sendBtn.addEventListener('click', async () => {\n    try {\n      const invoiceTxt = await pasteFromClipBoard();\n      handlePayment(invoiceTxt);\n    } catch (error) {\n      console.error(`Error: ${error}`);\n    }\n  });\n  const recieveBtn = document.getElementById('recieveBtn');\n  recieveBtn.addEventListener('click', () => {\n    const createInvoiceDiv = document.getElementById('createInvoice');\n    createInvoiceDiv.classList.toggle('hide');\n  });\n  const newInvBtn = document.getElementById('createInvBtn');\n  newInvBtn.addEventListener('click', async () => {\n    const amount = await returnAmount();\n    handleInvoice(amount);\n  });\n}\nasync function returnAmount() {\n  const amountInput = document.getElementById('amountInput');\n  if (amountInput.value <= 0 || amountInput.value === '') {\n    return;\n  }\n  return amountInput.value;\n}\nasync function pasteFromClipBoard() {\n  try {\n    const clipBrdTxt = await navigator.clipboard.readText();\n    return clipBrdTxt;\n  } catch {\n    return `Error reading clipboard: ${error.message}`;\n  }\n}\nasync function displayBtcPrice() {\n  const btcPrice = document.getElementById('btcPrice');\n  const price = await (0,_lnbits__WEBPACK_IMPORTED_MODULE_0__.getBitcoinPrice)();\n  const string_price = Number(price).toLocaleString();\n  btcPrice.textContent = `$${string_price}`;\n}\nasync function displayWalletBal() {\n  const walletBal = document.getElementById('walletBal');\n  const balance = await (0,_lnbits__WEBPACK_IMPORTED_MODULE_0__.getLnbitsBalance)();\n  const string_bal = Number(balance).toLocaleString();\n  walletBal.textContent = `${string_bal} sats`;\n}\nasync function displayWalletName() {\n  const walletName = document.getElementById('walletName');\n  walletName.innerHTML = `${_config_js__WEBPACK_IMPORTED_MODULE_1__.currentUser.currentWallet.wallet_name}`;\n}\n\nasync function abreviateHash(hash, start, end) {\n  return `${hash.substring(0, start)}...${hash.substring(hash.length - end)}`;\n}\n\n//# sourceURL=webpack://pleb_wallet/./src/dom.js?");
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   displayBtcPrice: () => (/* binding */ displayBtcPrice),
+/* harmony export */   displayCurrentWallet: () => (/* binding */ displayCurrentWallet),
+/* harmony export */   displayQrCode: () => (/* binding */ displayQrCode),
+/* harmony export */   displayTransactions: () => (/* binding */ displayTransactions),
+/* harmony export */   displayWalletBal: () => (/* binding */ displayWalletBal),
+/* harmony export */   displayWalletName: () => (/* binding */ displayWalletName),
+/* harmony export */   handleBtns: () => (/* binding */ handleBtns),
+/* harmony export */   handleInvoice: () => (/* binding */ handleInvoice),
+/* harmony export */   handleNewWallet: () => (/* binding */ handleNewWallet),
+/* harmony export */   handlePayment: () => (/* binding */ handlePayment)
+/* harmony export */ });
+/* harmony import */ var _lnbits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lnbits */ "./src/lnbits.js");
+/* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config.js */ "./config.js");
+
+
+const displayQrCode = async () => {
+  const prevStuff = document.getElementById('displayQrBtn');
+  if (prevStuff) prevStuff.remove();
+  const container = document.getElementById('container');
+  const toolbox = document.getElementById('toolBoxDiv');
+  const displayQrBtn = document.createElement('button');
+  displayQrBtn.textContent = 'View QR';
+  displayQrBtn.classList.add('rndBtn');
+  displayQrBtn.id = 'displayQrBtn';
+  toolbox.appendChild(displayQrBtn);
+  displayQrBtn.addEventListener('click', async () => {
+    const invoice = await pasteFromClipBoard();
+    console.log(`invoice: ${invoice}`);
+    const qrCodeSvg = await (0,_lnbits__WEBPACK_IMPORTED_MODULE_0__.getQrCode)(invoice);
+    const qrDiv = document.createElement('div');
+    qrDiv.classList.add('qrDiv');
+    qrDiv.innerHTML = qrCodeSvg;
+    const rmvBtn = document.createElement('button');
+    rmvBtn.textContent = 'X';
+    rmvBtn.classList.add('closeBtn');
+    qrDiv.appendChild(rmvBtn);
+    rmvBtn.addEventListener('click', () => {
+      qrDiv.remove();
+    });
+    container.appendChild(qrDiv);
+  });
+};
+const handleNewWallet = async () => {
+  const toolbox = document.getElementById('toolBoxDiv');
+  const container = document.getElementById('container');
+  const newWalletBtn = document.createElement('button');
+  newWalletBtn.textContent = 'New Wallet';
+  newWalletBtn.classList.add('rndBtn');
+  newWalletBtn.addEventListener('click', () => {
+    const popUpWin = document.createElement('div');
+    container.appendChild(popUpWin);
+    const nameInput = document.createElement('input');
+    nameInput.placeholder = 'Wallet name';
+    popUpWin.appendChild(nameInput);
+    const submitNameBtn = document.createElement('button');
+    submitNameBtn.textContent = 'Create Wallet';
+    popUpWin.appendChild(submitNameBtn);
+    submitNameBtn.addEventListener('click', () => {
+      (0,_lnbits__WEBPACK_IMPORTED_MODULE_0__.createNewWallet)(nameInput.value);
+      displayCurrentWallet();
+      popUpWin.remove();
+    });
+  });
+  toolbox.appendChild(newWalletBtn);
+};
+const displayCurrentWallet = async () => {
+  const prevWallets = document.querySelectorAll('.wallets');
+  prevWallets.forEach(wallet => {
+    wallet.remove();
+  });
+  const toolbox = document.getElementById('toolBoxDiv');
+  console.log(`16 currentUserWallets: ${_config_js__WEBPACK_IMPORTED_MODULE_1__.currentUser.currentWallet.wallet_name}`);
+  for (let i = 0; i < _config_js__WEBPACK_IMPORTED_MODULE_1__.wallets.length; i++) {
+    const option = document.createElement('div');
+    option.innerText = _config_js__WEBPACK_IMPORTED_MODULE_1__.wallets[i].wallet_name;
+    option.classList.add('wallets');
+    option.id = `wallet${i}`;
+    toolbox.appendChild(option);
+    option.addEventListener('click', async () => {
+      console.log(_config_js__WEBPACK_IMPORTED_MODULE_1__.currentUser.currentWallet.wallet_name, i);
+      _config_js__WEBPACK_IMPORTED_MODULE_1__.currentUser.setCurrentWallet(i, () => {
+        (0,_lnbits__WEBPACK_IMPORTED_MODULE_0__.updateApiKeys)();
+        displayWalletName();
+        displayWalletBal();
+        displayTransactions();
+      });
+      console.log(_config_js__WEBPACK_IMPORTED_MODULE_1__.currentUser.currentWallet.wallet_name, i);
+    });
+  }
+};
+const displayDecodedInvoice = async (invoiceResponse, invoice) => {
+  const createInvoiceDiv = document.getElementById('createInvoice');
+  const decodedInvoiceDiv = document.getElementById('decodedDiv');
+
+  //ul for invoice data
+  const dataList = document.createElement('ul');
+  dataList.classList.add('data-list');
+  const dataArray = [`Currency: ${invoiceResponse.currency}`, `${invoiceResponse.amount_msat / 1000} Sats`, new Date(invoiceResponse.date * 1000).toDateString(), new Date(invoiceResponse.date * 1000).toLocaleTimeString(),
+  // `Signature: ${await abreviateHash(invoiceResponse.signature, 11, 11)}`,
+  `Description: ${invoiceResponse.description}`
+  // `Payment hash: ${await abreviateHash(invoiceResponse.payment_hash, 11, 11)}`,
+  // `Payee: ${await abreviateHash(invoiceResponse.payee, 11, 11)}`,
+  // `Expiry: ${invoiceResponse.expiry}`,
+  // `Secret: ${await abreviateHash(invoiceResponse.payment_secret, 11, 11)}`,
+  ];
+  const listItems = dataArray.map(item => {
+    const dataItem = document.createElement('li');
+    dataItem.innerText = `${item}`;
+    return dataItem;
+  });
+  const msg = document.createElement('h3');
+  msg.textContent = 'Invoice copied to clipboard!';
+  //copy btn
+  const cpyToClpBrdBtn = document.createElement('button');
+  cpyToClpBrdBtn.textContent = `Copy: ${await abreviateHash(invoice, 11, 11)}`;
+  cpyToClpBrdBtn.classList.add('cpyInvoiceBtn');
+  cpyToClpBrdBtn.addEventListener('click', () => {
+    copyToClipboard(invoice);
+  });
+  //close btn
+  const closeBtn = document.createElement('button');
+  closeBtn.textContent = 'X';
+  closeBtn.classList.add('closeBtn');
+  closeBtn.addEventListener('click', () => {
+    decodedInvoiceDiv.classList.toggle('hide');
+    createInvoiceDiv.classList.toggle('hide');
+    decodedInvoiceDiv.remove();
+  });
+  //qr element
+  const qrCodeSvg = await (0,_lnbits__WEBPACK_IMPORTED_MODULE_0__.getQrCode)(invoice);
+  const qrDiv = document.createElement('div');
+  qrDiv.classList.add('qrDiv');
+  qrDiv.innerHTML = qrCodeSvg;
+  if (decodedInvoiceDiv.classList.contains('hide')) {
+    decodedInvoiceDiv.classList.remove('hide');
+  }
+  dataList.append(...listItems);
+  decodedInvoiceDiv.appendChild(closeBtn);
+  decodedInvoiceDiv.appendChild(msg);
+  decodedInvoiceDiv.appendChild(cpyToClpBrdBtn);
+  decodedInvoiceDiv.appendChild(dataList);
+  decodedInvoiceDiv.appendChild(qrDiv);
+  createInvoiceDiv.appendChild(decodedInvoiceDiv);
+};
+const displayTransactions = async () => {
+  const transactionDiv = document.getElementById('transactionDiv');
+  const transactions = await _config_js__WEBPACK_IMPORTED_MODULE_1__.currentUser.currentWallet.getLnbitsTransactions();
+  transactionDiv.innerHTML = '';
+  //display message if no tx history
+  if (transactions.length === 0) {
+    const newTransaction = document.createElement('div');
+    newTransaction.textContent = 'No transactions yet';
+    createInvoiceDiv.appendChild(newTransaction);
+    return;
+  }
+  transactions.forEach(function (tx) {
+    const checkingId = tx.checking_id;
+    const bolt11 = tx.bolt11;
+    const pending = tx.pending;
+    const preimage = tx.preimage;
+    const fee = tx.fee;
+    const memo = tx.memo;
+    let amount = Math.floor(Number(tx.amount) / 1000);
+    const time = new Date(tx.time * 1000);
+    const formatedDate = time.toDateString();
+    const formatedTime = time.toLocaleTimeString();
+    const isPositive = amount > 0;
+    const isValid = !pending && !document.querySelector(`p[data-checking-id="${checkingId}"]`);
+    const isValidDeposit = isValid && isPositive;
+    const isValidDebit = isValid && !isPositive && preimage !== "0000000000000000000000000000000000000000000000000000000000000000";
+    const shouldDisplay = isValidDeposit || isValidDebit;
+    if (shouldDisplay) {
+      if (!isPositive) {
+        amount += fee / 1000;
+      }
+      const transactionContainer = document.createElement('div');
+      transactionContainer.classList.add('transaction-container');
+      const txAmountEl = document.createElement('p');
+      txAmountEl.classList.add('transaction-amount');
+      txAmountEl.classList.add(isPositive ? 'green' : 'red');
+      txAmountEl.innerHTML = `${isPositive ? '+' : ''}${amount} sats, <br>`;
+      const txInvoiceEl = document.createElement('p');
+      txInvoiceEl.classList.add('transaction');
+      txInvoiceEl.setAttribute('data-checking-id', checkingId);
+      txInvoiceEl.innerHTML = `${isPositive ? 'Received' : 'Sent'}: <span title= "${bolt11}">${bolt11.substring(0, 11)}...${bolt11.substring(bolt11.length - 11, bolt11.length)}</span>`;
+      const txDetailEl = document.createElement('p');
+      txDetailEl.classList.add('transaction');
+      txDetailEl.innerHTML = `Memo:${memo} <br>${formatedDate}, <br>${formatedTime}`;
+      transactionContainer.appendChild(txAmountEl);
+      transactionContainer.appendChild(txInvoiceEl);
+      transactionContainer.appendChild(txDetailEl);
+      transactionDiv.appendChild(transactionContainer);
+    }
+  });
+};
+async function handleInvoice(amount) {
+  const amountInput = document.getElementById('amountInput');
+  const decodeInvoiceDiv = document.getElementById('decodedDiv');
+  try {
+    const response = await (0,_lnbits__WEBPACK_IMPORTED_MODULE_0__.getInvoice)(amount);
+    const invoice = response.payment_request;
+    await copyToClipboard(invoice);
+    const data = await (0,_lnbits__WEBPACK_IMPORTED_MODULE_0__.decodeInvoice)(invoice);
+    decodeInvoiceDiv.classList.remove('hide');
+    await displayDecodedInvoice(data, invoice);
+    await displayQrCode(invoice);
+    amountInput.value = '';
+  } catch (error) {
+    console.error(`Error getting invoice`, error);
+  }
+}
+async function handlePayment(invoice) {
+  const decodeInvoiceDiv = document.getElementById('decodedDiv');
+  try {
+    const response = await (0,_lnbits__WEBPACK_IMPORTED_MODULE_0__.submitInvoiceToPay)(invoice);
+    console.log(`response: ${response}`);
+    const newTransaction = document.createElement('div');
+    newTransaction.textContent = response;
+    decodeInvoiceDiv.appendChild(newTransaction);
+  } catch (error) {
+    console.error(`Error submitting invoice`, error);
+  }
+}
+async function copyToClipboard(invoiceTxt) {
+  try {
+    await navigator.clipboard.writeText(invoiceTxt);
+    return 'Copied to clipboard';
+  } catch {
+    return 'Error copying to clipboard';
+  }
+}
+const inputBtnPkg = () => {
+  const label = document.createElement('label');
+  const input = document.createElement('input');
+};
+const renderPopUp = async () => {
+  const container = document.getElementById('container');
+  const popUp = document.createElement('div');
+  const contentDiv = document.createElement('div');
+  popUp.classList.add('flex');
+  contentDiv.classList.add('flexColumn');
+  const rmvBtn = document.createElement('button');
+  rmvBtn.textContent = 'X';
+  rmvBtn.classList.add('closeBtn');
+  rmvBtn.addEventListener('click', () => {
+    popUp.remove();
+  });
+  container.appendChild(popUp);
+  popUp.appendChild(contentDiv);
+  popUp.appendChild(rmvBtn);
+};
+const handleBtns = async () => {
+  //decoded invoice
+  const decodeInvoiceDiv = document.getElementById('decodedDiv');
+  decodeInvoiceDiv.classList.add('hide');
+  const createInvoiceDiv = document.getElementById('createInvoice');
+  createInvoiceDiv.classList.add('hide');
+  const decodeDivBtn = document.getElementById('decodeDivBtn');
+  decodeDivBtn.addEventListener('click', async () => {
+    decodeInvoiceDiv.classList.toggle('hide');
+    const invoice = await pasteFromClipBoard();
+    const data = await (0,_lnbits__WEBPACK_IMPORTED_MODULE_0__.decodeInvoice)(invoice);
+    await displayDecodedInvoice(data, invoice);
+    await displayQrCode(invoice);
+  });
+  const sendBtn = document.getElementById('sendBtn');
+  sendBtn.addEventListener('click', async () => {
+    try {
+      const invoiceTxt = await pasteFromClipBoard();
+      handlePayment(invoiceTxt);
+    } catch (error) {
+      console.error(`Error: ${error}`);
+    }
+  });
+  const recieveBtn = document.getElementById('recieveBtn');
+  recieveBtn.addEventListener('click', () => {
+    const createInvoiceDiv = document.getElementById('createInvoice');
+    //opens invoice input and submit
+    createInvoiceDiv.classList.toggle('hide');
+  });
+  const newInvBtn = document.getElementById('createInvBtn');
+  newInvBtn.addEventListener('click', async () => {
+    //submits amount returns invoice and hides input and btn
+    const amount = await returnAmount();
+    handleInvoice(amount);
+    // createInvoiceDiv.classList.toggle('hide')
+  });
+};
+async function returnAmount() {
+  const amountInput = document.getElementById('amountInput');
+  if (amountInput.value <= 0 || amountInput.value === '') {
+    return;
+  }
+  return amountInput.value;
+}
+async function pasteFromClipBoard() {
+  try {
+    const clipBrdTxt = await navigator.clipboard.readText();
+    return clipBrdTxt;
+  } catch {
+    return `Error reading clipboard: ${error.message}`;
+  }
+}
+async function displayBtcPrice() {
+  const btcPrice = document.getElementById('btcPrice');
+  const price = await (0,_lnbits__WEBPACK_IMPORTED_MODULE_0__.getBitcoinPrice)();
+  const string_price = Number(price).toLocaleString();
+  btcPrice.textContent = `$${string_price}`;
+}
+async function displayWalletBal() {
+  const walletBal = document.getElementById('walletBal');
+  const balance = await (0,_lnbits__WEBPACK_IMPORTED_MODULE_0__.getLnbitsBalance)();
+  const string_bal = Number(balance).toLocaleString();
+  walletBal.textContent = `${string_bal} sats`;
+}
+async function displayWalletName() {
+  const walletName = document.getElementById('walletName');
+  walletName.innerHTML = `${_config_js__WEBPACK_IMPORTED_MODULE_1__.currentUser.currentWallet.wallet_name}`;
+}
+
+async function abreviateHash(hash, start, end) {
+  return `${hash.substring(0, start)}...${hash.substring(hash.length - end)}`;
+}
 
 /***/ }),
 
@@ -36,17 +403,269 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \***********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   createNewWallet: () => (/* binding */ createNewWallet),\n/* harmony export */   decodeInvoice: () => (/* binding */ decodeInvoice),\n/* harmony export */   getAmountFrom: () => (/* binding */ getAmountFrom),\n/* harmony export */   getBitcoinPrice: () => (/* binding */ getBitcoinPrice),\n/* harmony export */   getInvoice: () => (/* binding */ getInvoice),\n/* harmony export */   getLnbitsBalance: () => (/* binding */ getLnbitsBalance),\n/* harmony export */   getLnbitsTransactions: () => (/* binding */ getLnbitsTransactions),\n/* harmony export */   getQrCode: () => (/* binding */ getQrCode),\n/* harmony export */   getWallets: () => (/* binding */ getWallets),\n/* harmony export */   postJson: () => (/* binding */ postJson),\n/* harmony export */   submitInvoiceToPay: () => (/* binding */ submitInvoiceToPay),\n/* harmony export */   updateApiKeys: () => (/* binding */ updateApiKeys)\n/* harmony export */ });\n/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../config */ \"./config.js\");\n\nconst LN_BITS_API_URL = `https://legend.lnbits.com/api/v1/payments`;\nconst LN_BITS_API_WALLET = `https://legend.lnbits.com/api/v1/wallet`;\nlet LN_BITS_API_ADMIN_KEY = _config__WEBPACK_IMPORTED_MODULE_0__.currentUser.currentWallet.admin_key;\nlet LN_BITS_INVOICE_READ_KEY = _config__WEBPACK_IMPORTED_MODULE_0__.currentUser.currentWallet.inv_rd_key;\nasync function updateApiKeys() {\n  LN_BITS_API_ADMIN_KEY = _config__WEBPACK_IMPORTED_MODULE_0__.currentUser.currentWallet.admin_key;\n  LN_BITS_INVOICE_READ_KEY = _config__WEBPACK_IMPORTED_MODULE_0__.currentUser.currentWallet.inv_rd_key;\n}\nasync function getData(url, apikey, content_type) {\n  const headers = new Headers();\n  if (apikey) {\n    headers.append('X-Api-Key', apikey);\n  }\n  if (content_type) {\n    headers.append('Content-type', content_type);\n  }\n  try {\n    const response = await fetch(url, {\n      method: 'GET',\n      headers: headers\n    });\n    if (!response.ok) {\n      throw new Error(`Failed to fetch data. Status: ${response.status}`);\n    }\n    return await response.text();\n  } catch (error) {\n    throw new Error(`Eroor fetching data. Status: ${error.message}`);\n  }\n}\nasync function postJson(url, apikey, content_type, json) {\n  try {\n    const response = await fetch(url, {\n      method: 'POST',\n      headers: {\n        'Content-Type': content_type,\n        'X-Api-Key': apikey\n      },\n      body: json\n    });\n    if (!response.ok) {\n      throw new Error(`Failed to post data. Status: ${response.status}`);\n    }\n    const jsonResponse = await response.json();\n    return jsonResponse;\n  } catch (error) {\n    console.error(`Error posting data: ${error.message}`);\n    throw error;\n  }\n}\n\n//get functions\nconst getQrCode = async invoice => {\n  let data = await getData(`https://legend.lnbits.com/api/v1/qrcode/${invoice}`);\n  console.log(`data: ${data}`);\n  return data;\n};\nconst getWallets = async () => {\n  let data = await getData(LN_BITS_API_WALLET, LN_BITS_API_ADMIN_KEY);\n  console.log(data);\n};\nasync function getBitcoinPrice() {\n  let data = await getData(`https://api.coinbase.com/v2/prices/BTC-USD/spot`);\n  let json = JSON.parse(data);\n  let price = json.data.amount;\n  return price;\n}\nasync function getLnbitsBalance() {\n  let data = await getData(LN_BITS_API_WALLET, LN_BITS_API_ADMIN_KEY);\n  let json = JSON.parse(data);\n  let balance = Number(json.balance) / 1000;\n  return balance;\n}\nasync function getLnbitsTransactions() {\n  let data = await getData(LN_BITS_API_URL, LN_BITS_API_ADMIN_KEY, `application/json`);\n  return JSON.parse(data);\n}\n\n//post functions\nconst createNewWallet = async name => {\n  let json = {\n    name: name\n  };\n  try {\n    const response = await postJson(LN_BITS_API_WALLET, LN_BITS_API_ADMIN_KEY, 'application/json', JSON.stringify(json));\n    console.log(_config__WEBPACK_IMPORTED_MODULE_0__.wallets.length);\n    _config__WEBPACK_IMPORTED_MODULE_0__.currentUser.addWallet(response.id, response.adminKey, response.inkey, response.name);\n    _config__WEBPACK_IMPORTED_MODULE_0__.wallets.push({\n      wallet_id: response.id,\n      admin_key: response.adminKey,\n      inv_rd_key: response.inkey,\n      wallet_name: response.name\n    });\n    console.log(_config__WEBPACK_IMPORTED_MODULE_0__.wallets.length);\n    return response;\n  } catch (err) {\n    console.error(`Error creating new wallet: ${err}`);\n  }\n};\nasync function getInvoice(amount) {\n  let json = {\n    unit: 'sat',\n    amount: Number(amount),\n    memo: 'plebWallet',\n    out: false,\n    description_hash: ''\n  };\n  try {\n    const response = await postJson(LN_BITS_API_URL, LN_BITS_API_ADMIN_KEY, `application/json`, JSON.stringify(json));\n    return response;\n  } catch (error) {\n    console.error(`Error getting invoice: ${error}`);\n    throw error;\n  }\n}\nasync function getAmountFrom(invoice) {\n  const data = await decodeInvoice(invoice);\n  const amount = data.amount_msat / 1000;\n  return amount;\n}\nasync function decodeInvoice(invoice) {\n  let json = {\n    data: invoice\n  };\n  const data = await postJson('https://legend.lnbits.com/api/v1/payments/decode', LN_BITS_INVOICE_READ_KEY, 'application/json', JSON.stringify(json));\n  console.log(data);\n  return data;\n}\nasync function submitInvoiceToPay(invoice) {\n  try {\n    await customAlert(invoice);\n    let json = {\n      out: true,\n      bolt11: invoice\n    };\n    const response = await postJson(LN_BITS_API_URL, LN_BITS_API_ADMIN_KEY, \"application/json\", JSON.stringify(json));\n    const paymentHash = response.payment_hash;\n    console.log(`Payment successful: ${paymentHash}`);\n    return paymentHash;\n  } catch (error) {\n    console.error(`Error submitting invoice: ${error}`);\n  }\n}\nasync function payLNURL(invoice) {\n  const data = decodeInvoice(invoice);\n  console.log(data);\n  try {\n    let json = {\n      description_hash: data.description_hash,\n      callback: null,\n      amount: data.amount,\n      comment: '',\n      description: 'LNURL'\n    };\n    const response = await postJson(`${LN_BITS_API_URL}/lnurl`, LN_BITS_API_ADMIN_KEY, \"application/json\", JSON.stringify(json));\n    console.log(`LNURL: ${response}`);\n  } catch (error) {\n    console.error(`Error paying LNURL: ${error}`);\n  }\n}\nconst lnurAuth = async () => {\n  let json = {\n    callback: ''\n  };\n  const response = await postJson('https://legend.lnbits.com/api/v1/lnurlauth', LN_BITS_API_ADMIN_KEY, 'application/json', JSON.stringify(json));\n};\n\n// async function getHash(){\n//     const crypto = require('crypto')\n\n//     const paymentDetails = {\n//         amount: 'string',\n//         description: 'string',\n//         comment: 'string',\n//     }\n// }\n\nasync function customAlert(invoice) {\n  const amount = await getAmountFrom(invoice);\n  const abrevInv = await abreviateHash(invoice, 11, 11);\n  const isPlural = amount !== 1 || amount !== -1;\n  return new Promise((resolve, reject) => {\n    Swal.fire({\n      title: `Pay Invoice`,\n      showClass: {\n        popup: `\n                  animate__animated\n                  animate__fadeInUp\n                  animate__faster\n                `\n      },\n      hideClass: {\n        popup: `\n                  animate__animated\n                  animate__fadeOutDown\n                  animate__faster\n                `\n      },\n      html: `${amount} ${isPlural ? 'sats' : 'sat'}<br>Are you sure you want to pay this invoice?<br> ${abrevInv} `,\n      icon: 'question',\n      showCancelButton: true,\n      confirmButtonText: `<i class=\"fas fa-thumbs-up\"></i>  Yes, pay it!`,\n      cancelButtonText: `<i class=\"fa fa-thumbs-down\"></i>  Cancel`,\n      customClass: {\n        confirmButton: 'btnConfirm',\n        cancelButton: 'btnCancel'\n      }\n    }).then(result => {\n      if (result.isConfirmed) {\n        resolve();\n      } else {\n        reject(false);\n      }\n    });\n  });\n}\n//on success \nasync function confirmedPayment() {\n  Swal.fire({\n    position: \"top-center\",\n    icon: \"success\",\n    title: \"Transaction Sucess!\",\n    showConfirmButton: false,\n    timer: 1500\n  });\n}\nasync function postLNURL(amount) {\n  let json = {\n    description_hash: 'string',\n    callback: 'string',\n    amount: amount,\n    comment: 'string',\n    description: 'string'\n  };\n  try {\n    const response = await postJson(`${LN_BITS_API_URL}/lnurl`, LN_BITS_API_ADMIN_KEY, 'application/json', JSON.stringify(json));\n    console.log(response);\n    return response;\n  } catch (error) {\n    console.error(`Error posting json for LNURL ${error}`);\n  }\n}\nasync function abreviateHash(hash, start, end) {\n  return `${hash.substring(0, start)}...${hash.substring(hash.length - end)}`;\n}\n\n\n//# sourceURL=webpack://pleb_wallet/./src/lnbits.js?");
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   createNewWallet: () => (/* binding */ createNewWallet),
+/* harmony export */   decodeInvoice: () => (/* binding */ decodeInvoice),
+/* harmony export */   getAmountFrom: () => (/* binding */ getAmountFrom),
+/* harmony export */   getBitcoinPrice: () => (/* binding */ getBitcoinPrice),
+/* harmony export */   getData: () => (/* binding */ getData),
+/* harmony export */   getInvoice: () => (/* binding */ getInvoice),
+/* harmony export */   getLnbitsBalance: () => (/* binding */ getLnbitsBalance),
+/* harmony export */   getLnbitsTransactions: () => (/* binding */ getLnbitsTransactions),
+/* harmony export */   getQrCode: () => (/* binding */ getQrCode),
+/* harmony export */   getWallets: () => (/* binding */ getWallets),
+/* harmony export */   postJson: () => (/* binding */ postJson),
+/* harmony export */   submitInvoiceToPay: () => (/* binding */ submitInvoiceToPay),
+/* harmony export */   updateApiKeys: () => (/* binding */ updateApiKeys)
+/* harmony export */ });
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../config */ "./config.js");
 
-/***/ }),
+const LN_BITS_API_URL = `https://legend.lnbits.com/api/v1/payments`;
+const LN_BITS_API_WALLET = `https://legend.lnbits.com/api/v1/wallet`;
+let LN_BITS_API_ADMIN_KEY = _config__WEBPACK_IMPORTED_MODULE_0__.currentUser.currentWallet.admin_key;
+let LN_BITS_INVOICE_READ_KEY = _config__WEBPACK_IMPORTED_MODULE_0__.currentUser.currentWallet.inv_rd_key;
+async function updateApiKeys() {
+  LN_BITS_API_ADMIN_KEY = _config__WEBPACK_IMPORTED_MODULE_0__.currentUser.currentWallet.admin_key;
+  LN_BITS_INVOICE_READ_KEY = _config__WEBPACK_IMPORTED_MODULE_0__.currentUser.currentWallet.inv_rd_key;
+}
+async function getData(url, apikey, content_type) {
+  const headers = new Headers();
+  if (apikey) {
+    headers.append('X-Api-Key', apikey);
+  }
+  if (content_type) {
+    headers.append('Content-type', content_type);
+  }
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: headers
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to fetch data. Status: ${response.status}`);
+    }
+    return await response.text();
+  } catch (error) {
+    throw new Error(`Eroor fetching data. Status: ${error.message}`);
+  }
+}
+async function postJson(url, apikey, content_type, json) {
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': content_type,
+        'X-Api-Key': apikey
+      },
+      body: json
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to post data. Status: ${response.status}`);
+    }
+    const jsonResponse = await response.json();
+    return jsonResponse;
+  } catch (error) {
+    console.error(`Error posting data: ${error.message}`);
+    throw error;
+  }
+}
 
-/***/ "./src/script.js":
-/*!***********************!*\
-  !*** ./src/script.js ***!
-  \***********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+//get functions
+const getQrCode = async invoice => {
+  let data = await getData(`https://legend.lnbits.com/api/v1/qrcode/${invoice}`);
+  console.log(`data: ${data}`);
+  return data;
+};
+const getWallets = async () => {
+  let data = await getData(LN_BITS_API_WALLET, LN_BITS_API_ADMIN_KEY);
+  console.log(data);
+};
+async function getBitcoinPrice() {
+  let data = await getData(`https://api.coinbase.com/v2/prices/BTC-USD/spot`);
+  let json = JSON.parse(data);
+  let price = json.data.amount;
+  return price;
+}
+async function getLnbitsBalance() {
+  let data = await getData(LN_BITS_API_WALLET, LN_BITS_API_ADMIN_KEY);
+  let json = JSON.parse(data);
+  let balance = Number(json.balance) / 1000;
+  return balance;
+}
+async function getLnbitsTransactions() {
+  let data = await getData(LN_BITS_API_URL, LN_BITS_API_ADMIN_KEY, `application/json`);
+  return JSON.parse(data);
+}
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom.js */ \"./src/dom.js\");\n/* harmony import */ var _lnbits_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./lnbits.js */ \"./src/lnbits.js\");\n\n\nasync function app() {\n  await (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.displayBtcPrice)();\n  await (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.displayCurrentWallet)();\n  await (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.displayWalletBal)();\n  await (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.displayTransactions)();\n  setTimeout(function () {\n    app();\n  }, 10000);\n}\ndocument.addEventListener('DOMContentLoaded', async function () {\n  await (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.displayQrCode)();\n  await (0,_lnbits_js__WEBPACK_IMPORTED_MODULE_1__.getWallets)();\n  await (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.handleNewWallet)();\n  await (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.displayCurrentWallet)();\n  await (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.displayWalletBal)();\n  await (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.displayTransactions)();\n  await (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.displayWalletName)();\n  await (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.handleBtns)();\n  await app();\n});\n\n//# sourceURL=webpack://pleb_wallet/./src/script.js?");
+//post functions
+const createNewWallet = async name => {
+  let json = {
+    name: name
+  };
+  try {
+    const response = await postJson(LN_BITS_API_WALLET, LN_BITS_API_ADMIN_KEY, 'application/json', JSON.stringify(json));
+    console.log(_config__WEBPACK_IMPORTED_MODULE_0__.wallets.length);
+    _config__WEBPACK_IMPORTED_MODULE_0__.currentUser.addWallet(response.id, response.adminKey, response.inkey, response.name);
+    _config__WEBPACK_IMPORTED_MODULE_0__.wallets.push({
+      wallet_id: response.id,
+      admin_key: response.adminKey,
+      inv_rd_key: response.inkey,
+      wallet_name: response.name
+    });
+    console.log(_config__WEBPACK_IMPORTED_MODULE_0__.wallets.length);
+    return response;
+  } catch (err) {
+    console.error(`Error creating new wallet: ${err}`);
+  }
+};
+async function getInvoice(amount) {
+  let json = {
+    unit: 'sat',
+    amount: Number(amount),
+    memo: 'plebWallet',
+    out: false,
+    description_hash: ''
+  };
+  try {
+    const response = await postJson(LN_BITS_API_URL, LN_BITS_API_ADMIN_KEY, `application/json`, JSON.stringify(json));
+    return response;
+  } catch (error) {
+    console.error(`Error getting invoice: ${error}`);
+    throw error;
+  }
+}
+async function getAmountFrom(invoice) {
+  const data = await decodeInvoice(invoice);
+  const amount = data.amount_msat / 1000;
+  return amount;
+}
+async function decodeInvoice(invoice) {
+  let json = {
+    data: invoice
+  };
+  const data = await postJson('https://legend.lnbits.com/api/v1/payments/decode', LN_BITS_INVOICE_READ_KEY, 'application/json', JSON.stringify(json));
+  console.log(data);
+  return data;
+}
+async function submitInvoiceToPay(invoice) {
+  try {
+    await customAlert(invoice);
+    let json = {
+      out: true,
+      bolt11: invoice
+    };
+    const response = await postJson(LN_BITS_API_URL, LN_BITS_API_ADMIN_KEY, "application/json", JSON.stringify(json));
+    const paymentHash = response.payment_hash;
+    console.log(`Payment successful: ${paymentHash}`);
+    return paymentHash;
+  } catch (error) {
+    console.error(`Error submitting invoice: ${error}`);
+  }
+}
+async function payLNURL(invoice) {
+  const data = decodeInvoice(invoice);
+  console.log(data);
+  try {
+    let json = {
+      description_hash: data.description_hash,
+      callback: null,
+      amount: data.amount,
+      comment: '',
+      description: 'LNURL'
+    };
+    const response = await postJson(`${LN_BITS_API_URL}/lnurl`, LN_BITS_API_ADMIN_KEY, "application/json", JSON.stringify(json));
+    console.log(`LNURL: ${response}`);
+  } catch (error) {
+    console.error(`Error paying LNURL: ${error}`);
+  }
+}
+const lnurAuth = async () => {
+  let json = {
+    callback: ''
+  };
+  const response = await postJson('https://legend.lnbits.com/api/v1/lnurlauth', LN_BITS_API_ADMIN_KEY, 'application/json', JSON.stringify(json));
+};
+
+// async function getHash(){
+//     const crypto = require('crypto')
+
+//     const paymentDetails = {
+//         amount: 'string',
+//         description: 'string',
+//         comment: 'string',
+//     }
+// }
+
+async function customAlert(invoice) {
+  const amount = await getAmountFrom(invoice);
+  const abrevInv = await abreviateHash(invoice, 11, 11);
+  const isPlural = amount !== 1 || amount !== -1;
+  return new Promise((resolve, reject) => {
+    Swal.fire({
+      title: `Pay Invoice`,
+      showClass: {
+        popup: `
+                  animate__animated
+                  animate__fadeInUp
+                  animate__faster
+                `
+      },
+      hideClass: {
+        popup: `
+                  animate__animated
+                  animate__fadeOutDown
+                  animate__faster
+                `
+      },
+      html: `${amount} ${isPlural ? 'sats' : 'sat'}<br>Are you sure you want to pay this invoice?<br> ${abrevInv} `,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: `<i class="fas fa-thumbs-up"></i>  Yes, pay it!`,
+      cancelButtonText: `<i class="fa fa-thumbs-down"></i>  Cancel`,
+      customClass: {
+        confirmButton: 'btnConfirm',
+        cancelButton: 'btnCancel'
+      }
+    }).then(result => {
+      if (result.isConfirmed) {
+        resolve();
+      } else {
+        reject(false);
+      }
+    });
+  });
+}
+//on success 
+async function confirmedPayment() {
+  Swal.fire({
+    position: "top-center",
+    icon: "success",
+    title: "Transaction Sucess!",
+    showConfirmButton: false,
+    timer: 1500
+  });
+}
+async function postLNURL(amount) {
+  let json = {
+    description_hash: 'string',
+    callback: 'string',
+    amount: amount,
+    comment: 'string',
+    description: 'string'
+  };
+  try {
+    const response = await postJson(`${LN_BITS_API_URL}/lnurl`, LN_BITS_API_ADMIN_KEY, 'application/json', JSON.stringify(json));
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.error(`Error posting json for LNURL ${error}`);
+  }
+}
+async function abreviateHash(hash, start, end) {
+  return `${hash.substring(0, start)}...${hash.substring(hash.length - end)}`;
+}
+
 
 /***/ }),
 
@@ -56,7 +675,135 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _dom
   \********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   User: () => (/* binding */ User),\n/* harmony export */   Wallet: () => (/* binding */ Wallet)\n/* harmony export */ });\n/* harmony import */ var _src_lnbits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/lnbits */ \"./src/lnbits.js\");\n\nclass User {\n  constructor() {\n    this.wallets = [];\n    this.currentWallet = null;\n  }\n  addWallet(id, admKey, invKey, walletName) {\n    const wlt = new Wallet();\n    wlt.setWalletId(id);\n    wlt.setAdminKey(admKey);\n    wlt.setInvRdKey(invKey);\n    wlt.setWalletName(walletName);\n    this.wallets.push(wlt);\n  }\n  async setCurrentWallet(i, callback) {\n    this.currentWallet = this.wallets[i];\n    console.log(this.currentWallet);\n    try {\n      await this.updateApiData();\n    } catch (error) {\n      console.error(`'Error Updating while setting current wallet: ${error}`);\n    }\n    if (typeof callback === 'function') {\n      callback();\n    }\n  }\n  async updateApiData() {\n    try {\n      await (0,_src_lnbits__WEBPACK_IMPORTED_MODULE_0__.getLnbitsBalance)();\n      await (0,_src_lnbits__WEBPACK_IMPORTED_MODULE_0__.getLnbitsTransactions)();\n    } catch (error) {\n      throw new Error(`Error updating api: ${error}`);\n    }\n  }\n}\nclass Wallet {\n  constructor() {\n    this.wallet_id = '';\n    this.admin_key = '';\n    this.inv_rd_key = '';\n    this.wallet_name = '';\n  }\n  setWalletId(id) {\n    this.wallet_id = id;\n  }\n  setAdminKey(key) {\n    this.admin_key = key;\n  }\n  setInvRdKey(key) {\n    this.inv_rd_key = key;\n  }\n  setWalletName(name) {\n    this.wallet_name = name;\n  }\n}\n\n\n//# sourceURL=webpack://pleb_wallet/./wallets.js?");
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   User: () => (/* binding */ User),
+/* harmony export */   Wallet: () => (/* binding */ Wallet)
+/* harmony export */ });
+/* harmony import */ var _src_lnbits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/lnbits */ "./src/lnbits.js");
+
+class User {
+  constructor() {
+    this.wallets = [];
+    this.currentWallet = null;
+  }
+  addWallet(id, admKey, invKey, walletName) {
+    const wlt = new Wallet();
+    wlt.wallet_id = id;
+    wlt.admin_key = admKey;
+    wlt.inv_rd_key = invKey;
+    wlt.wallet_name = walletName;
+    this.wallets.push(wlt);
+  }
+  getBtcUsdPrice = async () => {
+    let data = await (0,_src_lnbits__WEBPACK_IMPORTED_MODULE_0__.getData)(`https://api.coinbase.com/v2/prices/BTC-USD/spot`);
+    let json = JSON.parse(data);
+    let price = json.data.amount;
+    return price;
+  };
+  setCurrentWallet = async (i, callback) => {
+    this.currentWallet = this.wallets[i];
+    try {
+      await this.updateApiData();
+    } catch (error) {
+      console.error(`'Error ${this.currentWallet.walletName}>setCurrentWallet: ${error}`);
+    }
+    if (typeof callback === 'function') {
+      callback();
+    }
+  };
+}
+class Wallet {
+  constructor(id, admKey, invKey, walletName) {
+    this.wallet_id = id;
+    this.admin_key = admKey;
+    this.inv_rd_key = invKey;
+    this.wallet_name = walletName;
+  }
+  getBalance = async () => {
+    try {
+      let data = await (0,_src_lnbits__WEBPACK_IMPORTED_MODULE_0__.getData)(LN_BITS_API_WALLET, LN_BITS_API_ADMIN_KEY);
+      let json = JSON.parse(data);
+      //convert mili sats to sats 
+      let balance = Number(json.balance) / 1000;
+      return balance;
+    } catch (error) {
+      console.error(`'Error ${this.wallet_name}>getBalance: ${error}`);
+    }
+  };
+  getTxHistory = async () => {
+    let data = await (0,_src_lnbits__WEBPACK_IMPORTED_MODULE_0__.getData)(LN_BITS_API_URL, LN_BITS_API_ADMIN_KEY, `application/json`);
+    return JSON.parse(data);
+  };
+  //returns payable invoice
+  postNewInvoice = async amount => {
+    let json = {
+      unit: 'sat',
+      amount: Number(amount),
+      memo: 'plebWallet',
+      out: false,
+      description_hash: ''
+    };
+    try {
+      const response = await (0,_src_lnbits__WEBPACK_IMPORTED_MODULE_0__.postJson)(LN_BITS_API_URL, LN_BITS_API_ADMIN_KEY, `application/json`, JSON.stringify(json));
+      return response;
+    } catch (error) {
+      console.error(`Error ${this.wallet_name}>postNewInvoice: ${error}`);
+      throw error;
+    }
+  };
+  //pays invoice
+  postPayment = async invoice => {
+    let json = {
+      out: true,
+      bolt11: invoice
+    };
+    try {
+      await customAlert(invoice);
+      const response = await (0,_src_lnbits__WEBPACK_IMPORTED_MODULE_0__.postJson)(LN_BITS_API_URL, LN_BITS_API_ADMIN_KEY, "application/json", JSON.stringify(json));
+      const paymentHash = response.payment_hash;
+      console.log(`Payment successful: ${paymentHash}`);
+      return paymentHash;
+    } catch (error) {
+      console.error(`Error  ${this.wallet_name}>postPayment: ${error}`);
+    }
+  };
+  decodeInvoice = async invoice => {
+    let json = {
+      data: invoice
+    };
+    try {
+      const data = await (0,_src_lnbits__WEBPACK_IMPORTED_MODULE_0__.postJson)('https://legend.lnbits.com/api/v1/payments/decode', LN_BITS_INVOICE_READ_KEY, 'application/json', JSON.stringify(json));
+      return data;
+    } catch (error) {
+      console.error(`Error  ${this.wallet_name}>decodeInvoice: ${error}`);
+    }
+  };
+  returnInvoiceAmount = async invoice => {
+    try {
+      const data = await this.decodeInvoice(invoice);
+      const amount = data.amount_msat / 1000;
+      return amount;
+    } catch (error) {
+      console.error(`Error  ${this.wallet_name}>returnInvoiceAmount: ${error}`);
+    }
+  };
+  getQrCode = async invoice => {
+    try {
+      let data = await (0,_src_lnbits__WEBPACK_IMPORTED_MODULE_0__.getData)(`https://legend.lnbits.com/api/v1/qrcode/${invoice}`);
+      return data;
+    } catch (error) {
+      console.error(`Error  ${this.wallet_name}>getQrCode: ${error}`);
+    }
+  };
+
+  //under construction
+  getWalletList = async () => {
+    let data = await (0,_src_lnbits__WEBPACK_IMPORTED_MODULE_0__.getData)(LN_BITS_API_WALLET, LN_BITS_API_ADMIN_KEY);
+    console.log(data);
+  };
+}
+
 
 /***/ })
 
@@ -116,11 +863,42 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /******/ 	})();
 /******/ 	
 /************************************************************************/
-/******/ 	
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./src/script.js");
-/******/ 	
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+(() => {
+/*!***********************!*\
+  !*** ./src/script.js ***!
+  \***********************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom.js */ "./src/dom.js");
+/* harmony import */ var _lnbits_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./lnbits.js */ "./src/lnbits.js");
+
+
+// import { getWallet } from './cashu.js'
+
+async function app() {
+  await (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.displayBtcPrice)();
+  await (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.displayCurrentWallet)();
+  await (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.displayWalletBal)();
+  await (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.displayTransactions)();
+  setTimeout(function () {
+    app();
+  }, 10000);
+}
+document.addEventListener('DOMContentLoaded', async function () {
+  await (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.displayQrCode)();
+  await (0,_lnbits_js__WEBPACK_IMPORTED_MODULE_1__.getWallets)();
+  await (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.handleNewWallet)();
+  await (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.displayCurrentWallet)();
+  await (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.displayWalletBal)();
+  await (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.displayTransactions)();
+  await (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.displayWalletName)();
+  await (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.handleBtns)();
+  await app();
+  // await getWallet()
+});
+})();
+
 /******/ })()
 ;
+//# sourceMappingURL=bundle.js.map
